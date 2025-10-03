@@ -1,12 +1,30 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        // Initialize from localStorage immediately (avoids flicker)
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
-    const login = (username) => setUser({ name: username });
-    const logout = () => setUser(null);
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+        }
+    }, [user]);
+
+    const login = (username) => {
+        const newUser = { name: username };
+        setUser(newUser);
+    };
+
+    const logout = () => {
+        setUser(null);
+    };
 
     return (
         <AuthContext.Provider value={{ user, login, logout }}>

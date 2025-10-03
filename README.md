@@ -2,11 +2,13 @@
 
 ## Modules Used
 
-| Frontend     | Backend   | Controller | Database |   
-|--------------|-----------|------------|----------| 
-| Vite         | Node.js   | Express.js | MySQL    |
-| React        | Sequelize |            |          |
-| React-Router |           |            |          | 
+| Frontend      | Backend   | Controller | Database |   
+|---------------|-----------|------------|----------| 
+| Vite          | Node.js   | Express.js | MySQL    |
+| React         | Sequelize |            |          |
+| React-Router  |           |            |          | 
+| TailwindCSS   |           |            |          |
+| Font Awesome  |           |            |          |  
 
 ## Installation and Usage
 1. run `cd backend` and run `npm i`

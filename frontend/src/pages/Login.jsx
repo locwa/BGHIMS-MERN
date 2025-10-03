@@ -10,7 +10,7 @@ export default function Login() {
     }
 
     const handleLogin = () => {
-        login("Louis"); // fake login
+        login("User"); // fake login
         navigate("/home");
     };
 

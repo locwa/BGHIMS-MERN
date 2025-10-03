@@ -6,7 +6,8 @@ import './index.css'
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 
 import Login from "./pages/Login.jsx"
-import Dashboard from "./pages/Dashboard.jsx";
+import Home from "./pages/Home.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,7 +15,11 @@ createRoot(document.getElementById('root')).render(
           <BrowserRouter>
               <Routes>
                   <Route path="/" element={<Login />}/>
-                  <Route path="/dashboard" element={<Dashboard />}/>
+                  <Route path="/home" element={
+                      <ProtectedRoute>
+                          <Home />
+                      </ProtectedRoute>
+                  }/>
               </Routes>
           </BrowserRouter>
       </AuthProvider>

@@ -6,12 +6,12 @@ export default function Login() {
     const navigate = useNavigate();
 
     if (user) {
-        return <Navigate to="/dashboard" replace />;
+        return <Navigate to="/home" replace />;
     }
 
     const handleLogin = () => {
         login("Louis"); // fake login
-        navigate("/dashboard");
+        navigate("/home");
     };
 
     return (

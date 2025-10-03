@@ -1,7 +1,7 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {useAuth} from "../contexts/AuthContext.jsx";
+import { useAuth } from "../contexts/AuthContext.jsx";
 import { NavLink } from "react-router";
 
 export default function MenuBar() {

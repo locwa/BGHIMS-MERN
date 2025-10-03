@@ -16,7 +16,7 @@ export default function MenuBar() {
                 <li className="py-3"><NavLink to="inventory.php" className="w-[100%] text-left flex"><FontAwesomeIcon icon={["fas", "boxes"]}  className="pr-3"/> Inventory</NavLink></li>
                 <li className="py-3"><NavLink to="add-or-remove.php" className="w-[100%] text-left flex"><FontAwesomeIcon icon={["fas", "exchange-alt"]}  className="pr-3"/>Add/Remove Stock</NavLink></li>
                 <li className="py-3"><NavLink to="generate-report.php" className="w-[100%] text-left flex"><FontAwesomeIcon icon={["fas", "file-alt"]}  className="pr-3"/> Report</NavLink></li>
-                <li className="py-3"><button className="w-[100%] text-left" onClick={logout}><FontAwesomeIcon icon={["fas", "sign-out-alt"]}  className="pr-3"/> Logout</button></li>
+                <li className="py-3"><button className="w-[100%] text-left hover:cursor-pointer" onClick={logout}><FontAwesomeIcon icon={["fas", "sign-out-alt"]}  className="pr-3"/> Logout</button></li>
             </ul>
         </div>
     )

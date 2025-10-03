@@ -1,9 +1,13 @@
 import { useAuth } from "../contexts/AuthContext.jsx";
-import { useNavigate } from "react-router";
+import {Navigate, useNavigate} from "react-router";
 
 export default function Login() {
-    const { login } = useAuth();
+    const { user, login } = useAuth();
     const navigate = useNavigate();
+
+    if (user) {
+        return <Navigate to="/dashboard" replace />;
+    }
 
     const handleLogin = () => {
         login("Louis"); // fake login

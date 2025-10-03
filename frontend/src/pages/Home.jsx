@@ -1,4 +1,3 @@
-import ProtectedRoute from "../ProtectedRoute.jsx"
 import { useAuth } from "../contexts/AuthContext.jsx";
 import DashboardTemplate from "../templates/DashboardTemplate.jsx";
 

@@ -4,7 +4,9 @@ export default function DashboardTemplate({children}) {
     return (
         <div className="flex">
             <MenuBar/>
-            {children}
+            <div>
+                {children}
+            </div>
         </div>
     )
 }

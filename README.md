@@ -23,7 +23,7 @@
 5.3. (Optional for dev environment) run `npx sequelize-cli db:seed:all`<br>
 5.4. run `cd backend` and run `npm start`<br>
 6. Start the frontend <br>
-6.1. run `cd ..`<br>
+6.1. start a new terminal and go to the `BGHIMS-MERN` directory<br>
 6.2. run `cd frontend` and run `npm run dev`(for development build)<br>
 ## Sequelize Migration Commands
 Run migrations:

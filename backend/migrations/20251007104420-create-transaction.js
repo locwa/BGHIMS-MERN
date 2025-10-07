@@ -10,17 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       ReceivingUser: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "UserAccounts",
+          id: "Id"
+        }
       },
       DateReceived: {
-        type: Sequelize.DATE
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE
       }
     });

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ItemRequestFulfillments', {
+    await queryInterface.createTable('ItemRequestFulfillment', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,28 +10,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       RequestId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "RequestLog",
+          key: "Id"
+        }
       },
       ProcurementId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "ProcurementLog",
+          key: "Id"
+        }
       },
       BatchNumber: {
         type: Sequelize.STRING
       },
       Quantity: {
         type: Sequelize.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ItemRequestFulfillments');
+    await queryInterface.dropTable('ItemRequestFulfillment');
   }
 };

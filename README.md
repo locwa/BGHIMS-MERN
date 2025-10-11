@@ -2,13 +2,13 @@
 
 ## Modules Used
 
-| Frontend      | Backend   | Controller | Database |   
-|---------------|-----------|------------|----------| 
-| Vite          | Node.js   | Express.js | MySQL    |
-| React         | Sequelize |            |          |
-| React-Router  | SheetJS   |            |          | 
-| TailwindCSS   |           |            |          |
-| Font Awesome  |           |            |          |  
+| Frontend      | Backend     | Controller | Database |   
+|---------------|-------------|------------|----------| 
+| Vite          | Node.js     | Express.js | MySQL    |
+| React         | Sequelize   |            |          |
+| React-Router  | SheetJS     |            |          | 
+| TailwindCSS   | Passport.js |            |          |
+| Font Awesome  |             |            |          |  
 
 ## Installation and Usage
 >[!IMPORTANT]

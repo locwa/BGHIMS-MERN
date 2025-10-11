@@ -7,6 +7,10 @@ import { AuthProvider } from "./contexts/AuthContext.jsx";
 
 import Login from "./pages/Login.jsx"
 import Home from "./pages/Home.jsx";
+import Inventory from "./pages/Inventory.jsx"
+import AddOrRemove from "./pages/AddOrRemove.jsx"
+import GenerateReport from "./pages/GenerateReport.jsx"
+
 import ProtectedRoute from "./ProtectedRoute.jsx";
 
 createRoot(document.getElementById('root')).render(
@@ -18,6 +22,21 @@ createRoot(document.getElementById('root')).render(
                   <Route path="/home" element={
                       <ProtectedRoute>
                           <Home />
+                      </ProtectedRoute>
+                  }/>
+                  <Route path="/inventory" element={
+                      <ProtectedRoute>
+                          <Inventory />
+                      </ProtectedRoute>
+                  }/>
+                  <Route path="/add-or-remove" element={
+                      <ProtectedRoute>
+                          <AddOrRemove />
+                      </ProtectedRoute>
+                  }/>
+                  <Route path="/generate-report" element={
+                      <ProtectedRoute>
+                        <GenerateReport />
                       </ProtectedRoute>
                   }/>
               </Routes>

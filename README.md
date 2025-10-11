@@ -2,14 +2,14 @@
 
 ## Modules Used
 
-| Frontend      | Backend     | Controller | Database |   
-|---------------|-------------|------------|----------| 
-| Vite          | Node.js     | Express.js | MySQL    |
-| React         | Sequelize   |            |          |
-| React-Router  | SheetJS     |            |          | 
-| TailwindCSS   | Passport.js |            |          |
-| Font Awesome  |             |            |          |  
-
+| Frontend     | Backend     | Controller | Database |   
+|--------------|-------------|------------|----------| 
+| Vite         | Node.js     | Express.js | MySQL    |
+| React        | Sequelize   |            |          |
+| React-Router | SheetJS     |            |          | 
+| TailwindCSS  | Passport.js |            |          |
+| Font Awesome |             |            |          |  
+| Axios        |             |            |          | 
 ## Installation and Usage
 >[!IMPORTANT]
 > Make sure that you are in the `BGHIMS-MERN` project directory 

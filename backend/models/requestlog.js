@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'RequestLog',
+    timestamps: false
   });
   return RequestLog;
 };

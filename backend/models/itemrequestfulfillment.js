@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'ItemRequestFulfillment',
+    timestamps: false
   });
   return ItemRequestFulfillment;
 };

@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'ProcurementLog',
+    timestamps: false
   });
   return ProcurementLog;
 };

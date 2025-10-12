@@ -8,7 +8,7 @@ import {AuthContext, AuthProvider} from "./contexts/AuthContext.jsx";
 import Login from "./pages/Login.jsx"
 import Home from "./pages/Home.jsx";
 import Inventory from "./pages/Inventory.jsx"
-import AddOrRemove from "./pages/AddOrRemove.jsx"
+import AddOrEditPartculars from "./pages/AddOrEditParticulars.jsx"
 import GenerateReport from "./pages/GenerateReport.jsx"
 
 // import ProtectedRoute from "./ProtectedRoute.jsx";
@@ -37,7 +37,7 @@ createRoot(document.getElementById('root')).render(
                   }/>
                   <Route path="/add-or-remove" element={
                       <ProtectedRoute>
-                          <AddOrRemove />
+                          <AddOrEditPartculars />
                       </ProtectedRoute>
                   }/>
                   <Route path="/generate-report" element={

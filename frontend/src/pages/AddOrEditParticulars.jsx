@@ -36,10 +36,18 @@ export default function AddOrEditParticulars() {
         }
     };
 
-    const openModal = (item) => {
+    const openAddExistingItem = (item) => {
         setParticularName(item.Particular.Name)
+        setRemarks((item.Remarks))
         setIsModalOpen(true)
     }
+
+    const openAddNewItem = () => {
+        setParticularName('')
+        setRemarks('')
+        setIsModalOpen(true)
+    }
+
 
     useEffect(() => {
         getInventory(searchParticularTerm)
@@ -59,7 +67,7 @@ export default function AddOrEditParticulars() {
                     onChange={(e) => setSearchParticularTerm(e.target.value)}
                     className="border my-4 px-2 py-1 w-72"
                 />
-                <button className="bg-green-500 border rounded-md p-1 hover:cursor-pointer h-10 w-48 text-white" onClick={() => setIsModalOpen(true)}>
+                <button className="bg-green-500 border rounded-md p-1 hover:cursor-pointer h-10 w-48 text-white" onClick={() => openAddNewItem()}>
                     <FontAwesomeIcon icon={["fas", "plus"]} style={{color: "#ffffff"}} className="pr-2"/>
                     Add New Item
                 </button>
@@ -77,7 +85,7 @@ export default function AddOrEditParticulars() {
                         <td className="p-2 border border-collapse text-center">
                             <button
                                 className="bg-green-500 rounded-md p-1 hover:cursor-pointer"
-                                onClick={() => openModal(item)}
+                                onClick={() => openAddExistingItem(item)}
                             >
                                 <FontAwesomeIcon icon={["fas", "plus"]} style={{color: "#ffffff"}}/>
                             </button>
@@ -122,7 +130,7 @@ export default function AddOrEditParticulars() {
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Remarks</label>
-                                <textarea className="bg-gray-100 p-2 border w-88" rows="4" cols="100" placeholder="Enter Remarks..." onChange={(e) => setExpiryDate(e.target.value)}></textarea>
+                                <textarea className="bg-gray-100 p-2 border w-88" value={remarks} rows="4" cols="100" placeholder="Enter Remarks..." onChange={(e) => setRemarks(e.target.value)}></textarea>
                             </div>
                         </div>
                     </div>

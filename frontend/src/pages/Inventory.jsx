@@ -1,6 +1,6 @@
 import DashboardTemplate from "../templates/DashboardTemplate.jsx";
 
-export default function Home() {
+export default function Inventory() {
     return (
         <DashboardTemplate>
             <h1>Inventory</h1>

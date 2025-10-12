@@ -1,6 +1,6 @@
 import DashboardTemplate from "../templates/DashboardTemplate.jsx";
 
-export default function Home() {
+export default function GenerateReport() {
     return (
         <DashboardTemplate>
             <h1>Generate Report</h1>

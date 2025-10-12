@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from 'axios'
-import {useNavigate} from "react-router";
 
 export const AuthContext = createContext();
 
@@ -9,18 +8,30 @@ const BASE_URL = 'http://localhost:3000/auth';
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loginError, setLoginError] = useState(null); // new state
 
-    // 🔹 Check if session exists on mount
     useEffect(() => {
         axios.get(`${BASE_URL}/profile`, { withCredentials: true })
             .then(res => setUser(res.data.user))
-            .catch(() => setUser(null))
+            .catch(() => {
+                setUser(null)
+            })
             .finally(() => setLoading(false));
     }, []);
 
     const login = async (email, password) => {
-        const res = await axios.post(`${BASE_URL}/login`, { email, password }, { withCredentials: true });
-        setUser(res.data.user);
+        try {
+            const res = await axios.post(
+                `${BASE_URL}/login`,
+                { email, password },
+                { withCredentials: true }
+            );
+            setUser(res.data.user);
+            setLoginError(null);
+        } catch (err) {
+            setLoginError("Invalid Username or Password");
+            window.alert("Invalid Username or Password");
+        }
     };
 
     const logout = async () => {

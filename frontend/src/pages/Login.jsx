@@ -1,20 +1,23 @@
-import { useAuth } from "../contexts/AuthContext.jsx";
-import {Navigate, useNavigate} from "react-router";
-import {useState} from "react";
+import {AuthContext} from "../contexts/AuthContext.jsx";
+import {useNavigate} from "react-router";
+import {useState, useEffect, useContext} from "react";
 
 export default function Login() {
-    const { user, login } = useAuth();
+    const { user, loading, login } = useContext(AuthContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    useEffect(() => {
+        if (!loading && user) {
+            navigate('/home');
+        }
+    }, [loading, user, navigate]);
 
-    if (user) {
-        return <Navigate to="/home" replace />;
-    }
-
-    function handleLogin() {
-        login(email, password);
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        await login(email, password);
+        navigate('/home');
     };
 
     return (

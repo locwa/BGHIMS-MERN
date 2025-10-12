@@ -1,9 +1,9 @@
-import { StrictMode } from 'react'
+import {StrictMode, useContext} from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from "react-router";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router";
 
 import './index.css'
-import { AuthProvider } from "./contexts/AuthContext.jsx";
+import {AuthContext, AuthProvider} from "./contexts/AuthContext.jsx";
 
 import Login from "./pages/Login.jsx"
 import Home from "./pages/Home.jsx";
@@ -11,7 +11,13 @@ import Inventory from "./pages/Inventory.jsx"
 import AddOrRemove from "./pages/AddOrRemove.jsx"
 import GenerateReport from "./pages/GenerateReport.jsx"
 
-import ProtectedRoute from "./ProtectedRoute.jsx";
+// import ProtectedRoute from "./ProtectedRoute.jsx";
+
+function ProtectedRoute({ children }) {
+    const { user, loading } = useContext(AuthContext);
+    if (loading) return <p>Loading...</p>;
+    return user ? children : <Navigate to="/" />;
+}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

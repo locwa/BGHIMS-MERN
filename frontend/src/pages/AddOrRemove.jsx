@@ -1,4 +1,3 @@
-import { useAuth } from "../contexts/AuthContext.jsx";
 import DashboardTemplate from "../templates/DashboardTemplate.jsx";
 
 export default function Home() {

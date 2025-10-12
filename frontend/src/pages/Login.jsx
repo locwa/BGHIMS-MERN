@@ -39,7 +39,7 @@ export default function Login() {
                     }}/>
                 </div>
 
-                <button className="bg-black text-white p-2" onClick={handleLogin}>Login</button>
+                <button className="bg-black text-white p-2 hover:cursor-pointer" onClick={handleLogin}>Login</button>
             </div>
 
         </div>

@@ -15,7 +15,7 @@ export default function MenuBar() {
     };
     library.add(fas)
     return (
-        <div className="w-[22vw] h-[100vh] bg-[#2c3e50] text-white">
+        <div className="w-[22vw] h-[100vh] bg-[#2c3e50] text-white sticky top-0 h-screen">
             <h2 className="text-3xl text-center py-6 font-semibold">Dashboard</h2>
             <hr/>
             <ul className="py-6 px-4">

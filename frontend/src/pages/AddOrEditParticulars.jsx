@@ -50,7 +50,7 @@ export default function AddOrEditParticulars() {
     return (
         <DashboardTemplate>
             <h1 className="text-3xl font-bold">Inventory</h1>
-
+            <p className="text-xs">If you're adding an existing item, search for it and click the plus button on its right side. If it does not exist, click the Add New Item button</p>
             <div className="flex justify-between items-center">
                 <input
                     type="text"
@@ -76,7 +76,7 @@ export default function AddOrEditParticulars() {
                         <td className="pr-2 border border-collapse text-center">{item.BatchNumber}</td>
                         <td className="p-2 border border-collapse text-center">
                             <button
-                                className="bg-green-500 border rounded-md p-1 hover:cursor-pointer"
+                                className="bg-green-500 rounded-md p-1 hover:cursor-pointer"
                                 onClick={() => openModal(item)}
                             >
                                 <FontAwesomeIcon icon={["fas", "plus"]} style={{color: "#ffffff"}}/>
@@ -93,7 +93,7 @@ export default function AddOrEditParticulars() {
                         </button>
                     </div>
                     <div>
-                        <h3 className="text-2xl font-bold text-center">Add Item</h3>
+                        <h3 className="text-2xl font-bold text-center">Add Particular</h3>
                         <div className="mt-4 flex flex-col gap-y-2">
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Name</label>

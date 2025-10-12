@@ -11,12 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models['Particular'])
-      this.hasOne(models['Transaction'])
+      this.belongsTo(models['Particular'], {
+        foreignKey: 'ParticularDescription',
+        as: 'Particular'
+      });
+
+      this.belongsTo(models['Transaction'], {
+        foreignKey: 'TransactionId',
+        as: 'Transaction'
+      });
     }
   }
   ProcurementLog.init({
-    Id: DataTypes.INTEGER,
+    Id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      field: 'Id'
+    },
     ParticularDescription: DataTypes.INTEGER,
     TransactionId: DataTypes.INTEGER,
     BatchNumber: DataTypes.STRING,
@@ -27,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'ProcurementLog',
+    tableName: 'ProcurementLog',
     timestamps: false
   });
   return ProcurementLog;

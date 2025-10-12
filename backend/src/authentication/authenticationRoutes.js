@@ -1,7 +1,6 @@
 const express = require('express')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
-const cors = require('cors')
 const { UserAccounts } = require('../../models')
 const router = express.Router()
 

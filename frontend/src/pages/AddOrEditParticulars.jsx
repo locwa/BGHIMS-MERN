@@ -1,12 +1,14 @@
 import DashboardTemplate from "../templates/DashboardTemplate.jsx";
 import Modal from "../components/Modal.jsx"
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import {AuthContext} from "../contexts/AuthContext.jsx";
 
 export default function AddOrEditParticulars() {
+    const { user } = useContext(AuthContext);
     const [inventory, setInventory] = useState([]);
     const [searchParticularTerm, setSearchParticularTerm] = useState("")
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -14,6 +16,7 @@ export default function AddOrEditParticulars() {
 
     const [particularName, setParticularName] = useState('')
     const [batchNumber, setBatchNumber] = useState('')
+    const [unit, setUnit] = useState('')
     const [unitCost, setUnitCost] = useState('')
     const [Quantity, setQuantity] = useState('')
     const [expiryDate, setExpiryDate] = useState('')
@@ -29,7 +32,7 @@ export default function AddOrEditParticulars() {
                 },
                 withCredentials: true
             });
-            return res.data; // ✅ return just the data, not the whole response object
+            return res.data;
         } catch (err) {
             console.error("Failed to fetch inventory:", err);
             throw err; // optional, to handle it in your component
@@ -41,11 +44,32 @@ export default function AddOrEditParticulars() {
         setRemarks((item.Remarks))
         setIsModalOpen(true)
     }
-
     const openAddNewItem = () => {
         setParticularName('')
         setRemarks('')
         setIsModalOpen(true)
+    }
+
+    const addItem = () => {
+        const postData = {
+            Name: particularName,
+            Unit: unit,
+            BatchNumber: batchNumber,
+            UnitCost: unitCost,
+            Quantity: Quantity,
+            ExpiryDate: expiryDate,
+            Remarks: remarks,
+            ReceivingUser: user.Id,
+            DateReceived: new Date()
+        }
+        axios.post(`${BASE_URL}/inventory/addItem`, postData)
+            .then(response => {
+                console.log('Response:', response.data);
+                return response.data
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
 
@@ -57,7 +81,7 @@ export default function AddOrEditParticulars() {
 
     return (
         <DashboardTemplate>
-            <h1 className="text-3xl font-bold">Inventory</h1>
+            <h1 className="text-3xl font-bold">Add/Edit Particulars</h1>
             <p className="text-xs">If you're adding an existing item, search for it and click the plus button on its right side. If it does not exist, click the Add New Item button</p>
             <div className="flex justify-between items-center">
                 <input
@@ -106,12 +130,19 @@ export default function AddOrEditParticulars() {
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Name</label>
                                 <input type="text" className="bg-gray-100 p-2 border w-88"
-                                       placeholder="e.g., M53 Cleanser, 1L" value={particularName} onChange={(e) => setParticularName(e.target.value)}/>
+                                       placeholder="e.g., M53 Cleanser, 1L" value={particularName}
+                                       onChange={(e) => setParticularName(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Batch Number</label>
                                 <input type="text" className="bg-gray-100 p-2 border w-88"
-                                       placeholder="e.g., NNO-123" value={batchNumber} onChange={(e) => setBatchNumber(e.target.value)}/>
+                                       placeholder="e.g., NNO-123" value={batchNumber}
+                                       onChange={(e) => setBatchNumber(e.target.value)}/>
+                            </div>
+                            <div className="flex flex-col">
+                                <label htmlFor="Name">Unit </label>
+                                <input type="text" className="bg-gray-100 p-2 border w-88"
+                                       placeholder="e.g., bx" onChange={(e) => setUnit(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Unit Cost</label>
@@ -130,8 +161,13 @@ export default function AddOrEditParticulars() {
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Remarks</label>
-                                <textarea className="bg-gray-100 p-2 border w-88" value={remarks} rows="4" cols="100" placeholder="Enter Remarks..." onChange={(e) => setRemarks(e.target.value)}></textarea>
+                                <textarea className="bg-gray-100 p-2 border w-88" value={remarks} rows="4" cols="100"
+                                          placeholder="Enter Remarks..."
+                                          onChange={(e) => setRemarks(e.target.value)}></textarea>
                             </div>
+                            <button className="bg-gray-300 py-2 hover:cursor-pointer" onClick={() => addItem()}>Add
+                                Item
+                            </button>
                         </div>
                     </div>
                 </Modal>

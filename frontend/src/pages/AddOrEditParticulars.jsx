@@ -14,6 +14,7 @@ export default function AddOrEditParticulars() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     library.add(fas)
 
+    const [procurementId, setProcurementId] = useState('')
     const [particularName, setParticularName] = useState('')
     const [batchNumber, setBatchNumber] = useState('')
     const [unit, setUnit] = useState('')
@@ -21,6 +22,8 @@ export default function AddOrEditParticulars() {
     const [Quantity, setQuantity] = useState('')
     const [expiryDate, setExpiryDate] = useState('')
     const [remarks, setRemarks] = useState('')
+
+    const [modalTitle, setModalTitle] = useState('')
 
     const BASE_URL = 'http://localhost:3000';
 
@@ -40,13 +43,38 @@ export default function AddOrEditParticulars() {
     };
 
     const openAddExistingItem = (item) => {
+        setModalTitle('Add Item')
         setParticularName(item.Particular.Name)
-        setRemarks((item.Remarks))
+        setBatchNumber('')
+        setUnit('')
+        setUnitCost('')
+        setQuantity('')
+        setExpiryDate('')
+        setRemarks(item.Remarks)
         setIsModalOpen(true)
     }
     const openAddNewItem = () => {
+        setModalTitle('Add Item')
         setParticularName('')
+        setBatchNumber('')
+        setUnit('')
+        setUnitCost('')
+        setQuantity('')
+        setExpiryDate('')
         setRemarks('')
+        setIsModalOpen(true)
+    }
+
+    const editItem = (item) => {
+        setModalTitle('Edit Item')
+        setProcurementId(item.Id)
+        setParticularName(item.Particular.Name)
+        setBatchNumber(item.BatchNumber)
+        setUnit(item.Particular.Unit)
+        setUnitCost(item.UnitCost)
+        setQuantity(item.Quantity)
+        setExpiryDate(new Date(item.ExpiryDate).toISOString().split("T")[0])
+        setRemarks((item.Remarks))
         setIsModalOpen(true)
     }
 
@@ -74,6 +102,29 @@ export default function AddOrEditParticulars() {
             });
     }
 
+    const updateItem = (id) => {
+        const postData = {
+            Name: particularName,
+            Unit: unit,
+            BatchNumber: batchNumber,
+            UnitCost: unitCost,
+            Quantity: Quantity,
+            ExpiryDate: expiryDate,
+            Remarks: remarks,
+            ReceivingUser: user.Id,
+            DateReceived: new Date()
+        }
+        axios.post(`${BASE_URL}/inventory/updateItem/${id}`, postData)
+            .then(response => {
+                console.log('Response:', response.data);
+                setIsModalOpen(false)
+                window.location.reload()
+                return response.data
+            })
+            .catch(error => {
+                alert(`Error: ${error}`);
+            });
+    }
 
     useEffect(() => {
         getInventory(searchParticularTerm)
@@ -118,7 +169,7 @@ export default function AddOrEditParticulars() {
                             </button>
                             <button
                                 className="bg-blue-500 rounded-md p-1 hover:cursor-pointer"
-                                onClick={() => openAddExistingItem(item)}
+                                onClick={() => editItem(item)}
                             >
                                 <FontAwesomeIcon icon={["fas", "pen-to-square"]} style={{color: "#ffffff"}}/>
                             </button>
@@ -134,7 +185,7 @@ export default function AddOrEditParticulars() {
                         </button>
                     </div>
                     <div>
-                        <h3 className="text-2xl font-bold text-center">Add Particular</h3>
+                        <h3 className="text-2xl font-bold text-center">{modalTitle}</h3>
                         <div className="mt-4 flex flex-col gap-y-2">
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Name</label>
@@ -150,22 +201,22 @@ export default function AddOrEditParticulars() {
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Unit </label>
-                                <input type="text" className="bg-gray-100 p-2 border w-88"
+                                <input type="text" className="bg-gray-100 p-2 border w-88" value={unit}
                                        placeholder="e.g., bx" onChange={(e) => setUnit(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Unit Cost</label>
-                                <input type="text" className="bg-gray-100 p-2 border w-88"
+                                <input type="text" className="bg-gray-100 p-2 border w-88" value={unitCost}
                                        placeholder="e.g., 18000" onChange={(e) => setUnitCost(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Quantity</label>
-                                <input type="text" className="bg-gray-100 p-2 border w-88"
+                                <input type="text" className="bg-gray-100 p-2 border w-88" value={Quantity}
                                        placeholder="e.g., 12" onChange={(e) => setQuantity(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Expiry Date</label>
-                                <input type="date" className="bg-gray-100 p-2 border w-88"
+                                <input type="date" className="bg-gray-100 p-2 border w-88" value={expiryDate}
                                        placeholder="e.g., 18000" onChange={(e) => setExpiryDate(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
@@ -174,8 +225,8 @@ export default function AddOrEditParticulars() {
                                           placeholder="Enter Remarks..."
                                           onChange={(e) => setRemarks(e.target.value)}></textarea>
                             </div>
-                            <button className="bg-gray-300 py-2 hover:cursor-pointer" onClick={() => addItem()}>Add
-                                Item
+                            <button className="bg-gray-300 py-2 hover:cursor-pointer" onClick={() => modalTitle === "Add Item" ? addItem() : updateItem(procurementId)}>
+                                {modalTitle}
                             </button>
                         </div>
                     </div>

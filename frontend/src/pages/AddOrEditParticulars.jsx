@@ -65,10 +65,12 @@ export default function AddOrEditParticulars() {
         axios.post(`${BASE_URL}/inventory/addItem`, postData)
             .then(response => {
                 console.log('Response:', response.data);
+                setIsModalOpen(false)
+                window.location.reload()
                 return response.data
             })
             .catch(error => {
-                console.error('Error:', error);
+                alert(`Error: ${error}`);
             });
     }
 

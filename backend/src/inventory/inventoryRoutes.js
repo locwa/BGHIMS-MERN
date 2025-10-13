@@ -100,7 +100,6 @@ router.post('/addItem', async (req, res) => {
         res.status(500).json({ error: 'Failed to add to inventory' });
     }
 });
-
 router.post('/updateItem/:id', async (req, res) => {
     const t = await sequelize.transaction();
 

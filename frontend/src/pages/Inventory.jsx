@@ -54,12 +54,11 @@ export default function Inventory() {
                 />
             </div>
 
-            <table className="mt-4">
+            <table className="mt-4 w-full">
                 <tr className="border border-collapse">
                     <th className="px-2 border border-collapse text-center">Particulars</th>
                     <th className="px-2 border border-collapse text-center">Batch Number</th>
                     <th className="px-2 border border-collapse text-center">Quantity</th>
-                    <th className="px-2 border border-collapse text-center">Expiry Date (YYYY-MM-DD)</th>
                 </tr>
                 {inventory.map((item) => (
                     <tr>

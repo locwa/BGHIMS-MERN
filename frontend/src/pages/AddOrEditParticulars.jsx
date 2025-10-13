@@ -103,17 +103,24 @@ export default function AddOrEditParticulars() {
                 <tr className="border border-collapse">
                     <th className="px-2 border border-collapse text-center">Particulars</th>
                     <th className="px-2 border border-collapse text-center">Batch Number</th>
+                    <th className="w-20"></th>
                 </tr>
                 {inventory.map((item) => (
                     <tr>
                     <td className="pr-2 border border-collapse">{item.Particular.Name}</td>
                         <td className="pr-2 border border-collapse text-center">{item.BatchNumber}</td>
-                        <td className="p-2 border border-collapse text-center">
+                        <td className="p-2 border border-collapse text-center flex justify-between w-20">
                             <button
                                 className="bg-green-500 rounded-md p-1 hover:cursor-pointer"
                                 onClick={() => openAddExistingItem(item)}
                             >
                                 <FontAwesomeIcon icon={["fas", "plus"]} style={{color: "#ffffff"}}/>
+                            </button>
+                            <button
+                                className="bg-blue-500 rounded-md p-1 hover:cursor-pointer"
+                                onClick={() => openAddExistingItem(item)}
+                            >
+                                <FontAwesomeIcon icon={["fas", "pen-to-square"]} style={{color: "#ffffff"}}/>
                             </button>
                         </td>
                     </tr>

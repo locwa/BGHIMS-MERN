@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'TransactionId',
         as: 'Transaction'
       });
+      this.hasMany(models['ItemRequestFulfillment'], { foreignKey: 'AcquisitionId' })
     }
   }
   ProcurementLog.init({

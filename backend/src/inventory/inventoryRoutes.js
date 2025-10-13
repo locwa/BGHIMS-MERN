@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {ProcurementLog, Particular, Transaction, sequelize} = require('../../models')
+const {ProcurementLog, Particular, Transaction, RequestLog, ItemRequestFulfillment, sequelize} = require('../../models')
 const { Op } = require('sequelize');
 
 router.get('/', async (req, res) => {
@@ -170,6 +170,51 @@ router.post('/updateItem/:id', async (req, res) => {
         await t.rollback();
         console.error(err);
         res.status(500).json({ error: 'Failed to update item' });
+    }
+});
+router.post('/requestItem', async (req, res) => {
+    const t = await sequelize.transaction();
+
+    try {
+        const { AccountId, items } = req.body;
+        // items = [{ AcquisitionId, BatchNumber, Quantity }]
+
+        if (!AccountId || !items || items.length === 0) {
+            return res.status(400).json({ error: 'Missing AccountId or items' });
+        }
+
+        // 1️⃣ Create a RequestLog
+        const requestLog = await RequestLog.create({
+            AccountId,
+            DateAdded: new Date()
+        }, { transaction: t });
+
+        // 2️⃣ Add all items to ItemRequestFulfillment
+        const itemEntries = await Promise.all(items.map(async (item) => {
+            // Optional: validate that the ProcurementLog exists
+            const exists = await ProcurementLog.findByPk(item.AcquisitionId, { transaction: t });
+            if (!exists) throw new Error(`ProcurementLog item ${item.AcquisitionId} not found`);
+
+            return await ItemRequestFulfillment.create({
+                ProcurementId: item.AcquisitionId,
+                RequestId: requestLog.id,
+                BatchNumber: item.BatchNumber,
+                Quantity: item.Quantity
+            }, { transaction: t });
+        }));
+
+        await t.commit();
+
+        res.json({
+            message: 'Request successfully created!',
+            requestLog,
+            itemEntries
+        });
+
+    } catch (err) {
+        await t.rollback();
+        console.error(err);
+        res.status(500).json({ error: 'Failed to create request' });
     }
 });
 

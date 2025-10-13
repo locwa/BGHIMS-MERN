@@ -10,6 +10,7 @@ import Home from "./pages/Home.jsx";
 import Inventory from "./pages/Inventory.jsx"
 import AddOrEditPartculars from "./pages/AddOrEditParticulars.jsx"
 import GenerateReport from "./pages/GenerateReport.jsx"
+import ItemRequest from "./pages/ItemRequest.jsx";
 
 // import ProtectedRoute from "./ProtectedRoute.jsx";
 
@@ -43,6 +44,11 @@ createRoot(document.getElementById('root')).render(
                   <Route path="/generate-report" element={
                       <ProtectedRoute>
                         <GenerateReport />
+                      </ProtectedRoute>
+                  }/>
+                  <Route path="/item-request" element={
+                      <ProtectedRoute>
+                          <ItemRequest />
                       </ProtectedRoute>
                   }/>
               </Routes>

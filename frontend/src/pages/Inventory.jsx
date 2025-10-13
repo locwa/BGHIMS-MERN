@@ -59,6 +59,7 @@ export default function Inventory() {
                     <th className="px-2 border border-collapse text-center">Particulars</th>
                     <th className="px-2 border border-collapse text-center">Batch Number</th>
                     <th className="px-2 border border-collapse text-center">Quantity</th>
+                    <th className="px-2 border border-collapse text-center">Expiry Date (YYYY-MM-DD)</th>
                 </tr>
                 {inventory.map((item) => (
                     <tr>

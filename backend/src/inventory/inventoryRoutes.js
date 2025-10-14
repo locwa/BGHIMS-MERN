@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {ProcurementLog, Particular, Transaction, RequestLog, ItemRequestFulfillment, sequelize} = require('../../models')
-const { Op } = require('sequelize');
+const { Op, QueryTypes} = require('sequelize');
 
 router.get('/', async (req, res) => {
     try {
@@ -36,6 +36,23 @@ router.get('/', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch inventory' });
+    }
+});
+router.get('/years', async (req, res) => {
+    try {
+        const years = await sequelize.query(
+            `
+        SELECT DISTINCT YEAR(DateReceived) AS year
+        FROM Transactions
+        ORDER BY year DESC;
+      `,
+            { type: QueryTypes.SELECT }
+        );
+
+        res.json(years.map(row => row.year)); // return array like [2025, 2024, 2023]
+    } catch (err) {
+        console.error("Failed to fetch transaction years:", err);
+        res.status(500).json({ error: 'Failed to fetch transaction years' });
     }
 });
 router.post('/addItem', async (req, res) => {

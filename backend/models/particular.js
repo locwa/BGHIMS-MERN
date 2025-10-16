@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   Particular.init({
     Id: DataTypes.INTEGER,
     Name: DataTypes.STRING,
-    Unit: DataTypes.STRING
+    Unit: DataTypes.STRING,
+    Category: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Particular',

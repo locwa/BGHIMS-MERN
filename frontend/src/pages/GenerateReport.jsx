@@ -7,6 +7,37 @@ export default function GenerateReport() {
     const [year, setYear] = useState('')
     const [quarter, setQuarter] = useState('')
 
+    const generateReport = async () => {
+        if (!year || !quarter) {
+            alert("Please select a year and quarter.");
+            return;
+        }
+
+        try {
+            const res = await axios.post(
+                "http://localhost:3000/inventory/report",
+                { year, quarter },
+                {
+                    responseType: "blob", // ⚠️ important to handle file data
+                    withCredentials: true,
+                }
+            );
+
+            // ✅ Create a downloadable file
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `inventory_${year}_${quarter}.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+        } catch (err) {
+            console.error("Error generating report:", err);
+            alert("Failed to generate report");
+        }
+    };
+
     useEffect(() => {
         const fetchYears = async () => {
             try {
@@ -35,16 +66,13 @@ export default function GenerateReport() {
                 <label htmlFor="quarter">Quarter</label><br/>
                 <select name="quarter" id="quarter" className="bg-gray-200 p-2 mb-2" onChange={(e) => setQuarter(e.target.value)}>
                     <option value="" selected disabled>Choose Quarter</option>
-                    <option value="1">1st</option>
-                    <option value="2">2nd</option>
-                    <option value="3">3rd</option>
-                    <option value="4">4th</option>
+                    <option value="Q1">1st</option>
+                    <option value="Q2">2nd</option>
+                    <option value="Q3">3rd</option>
+                    <option value="Q4">4th</option>
                 </select><br/>
                 <button className="bg-gray-300 p-2 mt-3 hover:cursor-pointer"
-                        onClick={() => {
-                            console.log(year)
-                            console.log(quarter)
-                        }}>
+                        onClick={generateReport}>
                     Generate Report
                 </button>
             </div>

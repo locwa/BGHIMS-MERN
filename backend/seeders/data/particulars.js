@@ -1,829 +1,853 @@
 const particulars = [
     {
-        "Id": 1,
+        "Category": "HEMATOLOGY",
         "Name": "M53 Cleanser, 1L",
         "Unit": "bx"
     },
     {
-        "Id": 2,
+        "Category": "HEMATOLOGY",
         "Name": "M53 Diluent, 20L",
         "Unit": "bot"
     },
     {
-        "Id": 3,
+        "Category": "HEMATOLOGY",
         "Name": "M53 Leo I Lyse, 1L",
         "Unit": "bot"
     },
     {
-        "Id": 4,
+        "Category": "HEMATOLOGY",
         "Name": "M53 Leo II Lyse, 500ml",
         "Unit": "bot"
     },
     {
-        "Id": 5,
+        "Category": "HEMATOLOGY",
         "Name": "M53 LH Lyse, 1L",
         "Unit": "bot"
     },
     {
-        "Id": 6,
+        "Category": "HEMATOLOGY",
         "Name": "Mindray Hematology Control, N,H,L, 5ml/SET",
         "Unit": "bot"
     },
     {
-        "Id": 7,
+        "Category": "HEMATOLOGY",
         "Name": "Mindray Probe Cleanser, 50ml",
         "Unit": "bot"
     },
     {
-        "Id": 8,
+        "Category": "HEMATOLOGY",
         "Name": "M-5 Leo 1 Lyse, liter, Mindray",
         "Unit": "bot"
     },
     {
-        "Id": 9,
+        "Category": "HEMATOLOGY",
         "Name": "M5 Leo II, 500ml, Mindray",
         "Unit": "bot"
     },
     {
-        "Id": 10,
+        "Category": "HEMATOLOGY",
         "Name": "Hematology controls, 5 parts, 5ml/bot (Dynamind)",
         "Unit": "bot"
     },
     {
-        "Id": 11,
+        "Category": "HEMATOLOGY",
         "Name": "C-reactive protein kit, (latex immuno method, 25's/bx",
         "Unit": "bx"
     },
     {
-        "Id": 12,
+        "Category": "HEMATOLOGY",
         "Name": "Hema Quick Stain",
         "Unit": "bot"
     },
     {
-        "Id": 13,
+        "Category": "HEMATOLOGY",
+        "Name": "Reagent Pack Set ( reagentpack-sensor module)",
+        "Unit": ""
+    },
+    {
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Blood glucose strips, 50's",
         "Unit": "bx"
     },
     {
-        "Id": 14,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Activator, 9x12ml",
         "Unit": "bot"
     },
     {
-        "Id": 15,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas ALP reagent, 200's",
         "Unit": "bot"
     },
     {
-        "Id": 16,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas ALT reagent, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 17,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas AST reagent, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 18,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Albumin reagent, c111, 4x100/bx",
         "Unit": "bx"
     },
     {
-        "Id": 19,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Albumin reagent, c111, 4x100/bx",
         "Unit": "bx"
     },
     {
-        "Id": 20,
-        "Name": "Cobas Blood Uric  Acid Reagent, 400's",
+        "Category": "CLINICAL CHEMISTRY",
+        "Name": "Cobas Blood Uric Acid Reagent, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 21,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Calcium reagent",
         "Unit": "bot"
     },
     {
-        "Id": 22,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas CFAS Lipid, 3x1ml",
         "Unit": "bot"
     },
     {
-        "Id": 23,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas CFAS, 10x3ml",
         "Unit": "bot"
     },
     {
-        "Id": 24,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Blood Urea Nitrogen, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 25,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Triglyceride, 200's",
         "Unit": "bot"
     },
     {
-        "Id": 26,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Cholesterol, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 27,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Creatinine Jaffe Reagent, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 28,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Glucose Reagent, 400's",
         "Unit": "bot"
     },
     {
-        "Id": 29,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas HDL Cholesterin, 200's",
         "Unit": "bot"
     },
     {
-        "Id": 30,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Integra Cleaner, 1L",
         "Unit": "bot"
     },
     {
-        "Id": 31,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "NaCl Diluent, 9%, C111",
         "Unit": "bot"
     },
     {
-        "Id": 32,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Precicontrol Clinchem Multi 1",
         "Unit": "bot"
     },
     {
-        "Id": 33,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Cobas Precicontrol Clinchem Multi 2",
         "Unit": "bot"
     },
     {
-        "Id": 34,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "ISE Deproteinizer, c111, 2 x 11ml/bx",
         "Unit": "kits"
     },
     {
-        "Id": 35,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "HBA1c test kit 25's/bx (B-Analyst)",
         "Unit": "bx"
     },
     {
-        "Id": 36,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "ALT Kit, CCL 228 R1: 48 mlx2, R2: 12ml",
         "Unit": "bx"
     },
     {
-        "Id": 37,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "AST Kit, CCL 228 R1: 48mlx2, R2: 12 ml",
         "Unit": "bx"
     },
     {
-        "Id": 38,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Creatinine CCL 228 R1: 48ml x 2",
         "Unit": "bx"
     },
     {
-        "Id": 39,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Glucose Kit CCL 228 R1 20ml x 2",
         "Unit": "bx"
     },
     {
-        "Id": 40,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "HDL-C CCL 228 R1 48mlx2, R2: 16 ml",
         "Unit": "bx"
     },
     {
-        "Id": 41,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Total Cholesterol CCL 228 R1: 20ml",
         "Unit": "bx"
     },
     {
-        "Id": 42,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Triglyceride CCL 228 R1 20ml x 8",
         "Unit": "bx"
     },
     {
-        "Id": 43,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Urea Kit CCL 228 R1: 48ml x 2, R2: 16ml",
         "Unit": "bx"
     },
     {
-        "Id": 44,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Uric Acid/UA CCL 288 R1: 48ml x 2",
         "Unit": "bx"
     },
     {
-        "Id": 45,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Calibrator HDL-C CCL 228 R1: 1 x 5 ml",
         "Unit": "bx"
     },
     {
-        "Id": 46,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Composit Quality Control Serum (Pathological) SV III R1: 1x5ml",
         "Unit": "bx"
     },
     {
-        "Id": 47,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Composit Quality Control Serum (Normal) SV III R1: 1x5ml",
         "Unit": "bx"
     },
     {
-        "Id": 48,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Lipid Control SVIII",
         "Unit": "bx"
     },
     {
-        "Id": 49,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Calibrator Serum (level 2) SVIII",
         "Unit": "bx"
     },
     {
-        "Id": 50,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Drift Correction Solution A (350 ml)",
         "Unit": "bx"
     },
     {
-        "Id": 51,
+        "Category": "CLINICAL CHEMISTRY",
         "Name": "Slope Correction Solution B (350ml)",
         "Unit": "bx"
     },
     {
-        "Id": 53,
+        "Category": "SEROLOGY",
         "Name": "SD Bioline, HBsAg, (WB), 100's",
         "Unit": "bx"
     },
     {
-        "Id": 54,
+        "Category": "SEROLOGY",
         "Name": "SD Bioline, Syphillis, 3.0, 100's",
         "Unit": "bx"
     },
     {
-        "Id": 55,
+        "Category": "SEROLOGY",
         "Name": "SD Dengue NSI Ag, 25's",
         "Unit": "bx"
     },
     {
-        "Id": 56,
+        "Category": "SEROLOGY",
         "Name": "SD Dengue Ag + Ab, 10's",
         "Unit": "bx"
     },
     {
-        "Id": 57,
+        "Category": "SEROLOGY",
         "Name": "SD Salmonella Typhi IgM/IgM, 25's",
         "Unit": "bx"
     },
     {
-        "Id": 58,
+        "Category": "SEROLOGY",
         "Name": "SD Troponin 1, 25's",
         "Unit": "bx"
     },
     {
-        "Id": 59,
+        "Category": "SEROLOGY",
         "Name": "SD One-step anti HCV test kits, 25's bx",
         "Unit": "bx"
     },
     {
-        "Id": 60,
+        "Category": "SEROLOGY",
         "Name": "HIV 1/2 Test Kits, 25's, Wonfo",
         "Unit": "bx"
     },
     {
-        "Id": 61,
+        "Category": "SEROLOGY",
         "Name": "H. Pylori Test kits, 25's, Wonfo",
         "Unit": "bx"
     },
     {
-        "Id": 62,
+        "Category": "BLOOD BANKING",
         "Name": "22% Bovine Serum Albumin, 10ml",
         "Unit": "vial"
     },
     {
-        "Id": 63,
+        "Category": "BLOOD BANKING",
         "Name": "Anti-human globulin, 10ml",
         "Unit": "vial"
     },
     {
-        "Id": 64,
+        "Category": "BLOOD BANKING",
         "Name": "Epiclone Typing Sera, anti-A, anti-B, 2x10ml",
         "Unit": "vial"
     },
     {
-        "Id": 65,
+        "Category": "BLOOD BANKING",
         "Name": "Epiclone Typing Sera, anti-D, 10ml",
         "Unit": "vial"
     },
     {
-        "Id": 66,
+        "Category": "BLOOD BANKING",
         "Name": "Gel Tech Cards, forward and reverse typing",
         "Unit": "bx"
     },
     {
-        "Id": 67,
+        "Category": "BLOOD BANKING",
         "Name": "Gel Tech Cards, crossmatching and typing",
         "Unit": "bx"
     },
     {
-        "Id": 68,
+        "Category": "BLOOD BANKING",
         "Name": "LISS, 500ml",
         "Unit": "bot"
     },
     {
-        "Id": 69,
+        "Category": "BLOOD BANKING",
+        "Name": "Spill Kit",
+        "Unit": ""
+    },
+    {
+        "Category": "BLOOD BANKING",
+        "Name": "Blood Bank Ref AVR 1500 watts, 3 univeral socket, 220 v, 180 seconds time delay",
+        "Unit": ""
+    },
+    {
+        "Category": "BLOOD BANKING",
+        "Name": "Digital Hydrometer Thermometer, Temperature, Humidity Gauge Meter, Room Temp Monitor",
+        "Unit": ""
+    },
+    {
+        "Category": "CLINICAL MICROSCOPY",
         "Name": "Urine test strips, 100's/bot",
         "Unit": "bot"
     },
     {
-        "Id": 70,
+        "Category": "CLINICAL MICROSCOPY",
         "Name": "Pregnancy test kit, 25's/bx",
         "Unit": "bx"
     },
     {
-        "Id": 71,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Blue pipette tips, 1000's",
         "Unit": "pack"
     },
     {
-        "Id": 72,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Cargill Type A, Immersion oil, 12's",
         "Unit": "bx"
     },
     {
-        "Id": 73,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Elecsys Sample cups, 250's",
         "Unit": "pack"
     },
     {
-        "Id": 74,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Hemaquick Stain, Medics, 4x500ml",
         "Unit": "tray"
     },
     {
-        "Id": 75,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Heparinized Capillary tubes, 10's",
         "Unit": "bx"
     },
     {
-        "Id": 76,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Microcuvette segments, 1680's",
         "Unit": "pack"
     },
     {
-        "Id": 77,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Microtainers, 2ml plastic, snapcaps",
         "Unit": "tubes"
     },
     {
-        "Id": 78,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Test tubes, 10x75, pyrex",
         "Unit": "tubes"
     },
     {
-        "Id": 79,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Vacutainer, yellow top with gel retractor, 3ml, 100's",
         "Unit": "tray"
     },
     {
-        "Id": 80,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Vacutainer, EDTA 0.5ml, 100's",
         "Unit": "tray"
     },
     {
-        "Id": 81,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Vacutainer, EDTA, 3ml, 100's",
         "Unit": "tray"
     },
     {
-        "Id": 82,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Vacutainer, red top 3ml, 100's",
         "Unit": "tray"
     },
     {
-        "Id": 83,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Vacutainer, blue top, 3ml/tray",
         "Unit": "tray"
     },
     {
-        "Id": 84,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Yellow pipette tips, 1000's",
         "Unit": "pack"
     },
     {
-        "Id": 85,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Autolancets, g23, medisharp, 200's",
         "Unit": "bx"
     },
     {
-        "Id": 86,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Glucosure Monitor, Autocode",
         "Unit": "pc"
     },
     {
-        "Id": 87,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Thermal Paper, 110mmx30mm",
         "Unit": "bx"
     },
     {
-        "Id": 88,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Test tubes, 10 x 74mm",
         "Unit": "pc"
     },
     {
-        "Id": 89,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Test tubes, 16x100mm",
         "Unit": "pc"
     },
     {
-        "Id": 90,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Lugol's solution, 1L",
         "Unit": "bot"
     },
     {
-        "Id": 91,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Gram Stain",
         "Unit": "set"
     },
     {
-        "Id": 92,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Tungsten Lamp, c111",
         "Unit": "pc"
     },
     {
-        "Id": 93,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "COBAS, c111 Probe",
         "Unit": "pc"
     },
     {
-        "Id": 94,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Autolancet device",
         "Unit": "pc"
     },
     {
-        "Id": 95,
-        "Name": "Glass slide, unground edges, 1x3\"",
+        "Category": "LABORATORY SUPPLIES",
+        "Name": "Glass slide, unground edges, 1x3",
         "Unit": "bx"
     },
     {
-        "Id": 96,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Pipettor, 100-1000ul",
         "Unit": "pc"
     },
     {
-        "Id": 97,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Sealing Film 10 cmx40cm",
         "Unit": "bx"
     },
     {
-        "Id": 98,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Pipettor, 10-100ul",
         "Unit": "pc"
     },
     {
-        "Id": 99,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Conical Test tube, 20mmx110mm, 100's",
         "Unit": "bx"
     },
     {
-        "Id": 100,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Test Kits, Fecal Occult Blood, 25\"s",
         "Unit": "bx"
     },
     {
-        "Id": 101,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Tourniquet",
         "Unit": "pc"
     },
     {
-        "Id": 102,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "TSH Test Kit (Finecare)",
         "Unit": "bx"
     },
     {
-        "Id": 103,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "FT4 Test Kit (Finecare)",
         "Unit": "bx"
     },
     {
-        "Id": 104,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Troponin 1 (Quanti) (Finecare)",
         "Unit": "bx"
     },
     {
-        "Id": 105,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "FT3 Test Kit (Finecare)",
         "Unit": "bx"
     },
     {
-        "Id": 106,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Cardiac, 3 in 1",
         "Unit": "bx"
     },
     {
-        "Id": 107,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "CEA",
         "Unit": "bx"
     },
     {
-        "Id": 108,
+        "Category": "LABORATORY SUPPLIES",
+        "Name": "CEA Control Cartridge, Wondfo",
+        "Unit": ""
+    },
+    {
+        "Category": "LABORATORY SUPPLIES",
         "Name": "PSA",
         "Unit": "bx"
     },
     {
-        "Id": 109,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "LH Test Kit",
         "Unit": "bx"
     },
     {
-        "Id": 110,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "FSH Test Kit",
         "Unit": "bx"
     },
     {
-        "Id": 111,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Elecsys sample cups, 250's, c111",
         "Unit": "pack"
     },
     {
-        "Id": 112,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Bhcg Test Kit, Finecare",
         "Unit": "bx"
     },
     {
-        "Id": 113,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "DH Cal 2, 200ml/bot",
         "Unit": "bot"
     },
     {
-        "Id": 114,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "DH Cal 1, 480ml/bot",
         "Unit": "bot"
     },
     {
-        "Id": 115,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Chem analyzer online Interactive UPS 2",
         "Unit": "pc"
     },
     {
-        "Id": 116,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Hema Analyzer Online UPS, 1KVA",
         "Unit": "pc"
     },
     {
-        "Id": 117,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "ALT Kit (IFCC Method) 2 x 18 ml, Mindray",
         "Unit": "bx"
     },
     {
-        "Id": 118,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "AST Kit (IFCC Method) 2 x 8 ml, Mindray",
         "Unit": "bx"
     },
     {
-        "Id": 119,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Creatinine Kit (Modified)(Jaffe Method), 3x 35ml",
         "Unit": "bx"
     },
     {
-        "Id": 120,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Detergent CD 80, 2 L",
         "Unit": "bot"
     },
     {
-        "Id": 121,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Glucose Kit (GOD-POD Method) 2 x 20 ml",
         "Unit": "bx"
     },
     {
-        "Id": 122,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Halogen Lamp, Mindray",
         "Unit": "pc"
     },
     {
-        "Id": 123,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "QCA Abnormal Control 1 x 5ml, Mindray",
         "Unit": "bot"
     },
     {
-        "Id": 124,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "QCA Normal Control 1 x 5 ml, Mindray",
         "Unit": "bot"
     },
     {
-        "Id": 125,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "QCA Calibrator Control, 1 x 5ml, Mindray",
         "Unit": "bot"
     },
     {
-        "Id": 126,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Sample Probe Needle, Mindray",
         "Unit": "pc"
     },
     {
-        "Id": 127,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Total Cholesterol Kit, (CHOD-POD Method) 4 x 40 ml",
         "Unit": "bx"
     },
     {
-        "Id": 128,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Triglyceride Kit, (GPO-POD Method) 4 x 40 ml",
         "Unit": "bx"
     },
     {
-        "Id": 129,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Urea Kit Urease-GLDH, UV Method",
         "Unit": "bx"
     },
     {
-        "Id": 130,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Albumin Kit, GLDH, UV Method, 100's/bx",
         "Unit": "bx"
     },
     {
-        "Id": 131,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Uric Acid Kit, Uricase Peroxidase Method",
         "Unit": "bx"
     },
     {
-        "Id": 132,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Microcuvette for BS 240, Mindray",
         "Unit": "bx"
     },
     {
-        "Id": 133,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Sample cups, 250's/pack",
         "Unit": "pack"
     },
     {
-        "Id": 134,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Sample Probe Needle, Mindray",
         "Unit": "pc"
     },
     {
-        "Id": 135,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "RAT (Rapid Antigen Test)",
         "Unit": "pc"
     },
     {
-        "Id": 136,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "HDL-C Kit",
         "Unit": "bx"
     },
     {
-        "Id": 137,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "LDL kit,100's/bx",
         "Unit": "bx"
     },
     {
-        "Id": 138,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Electrolyte Reagent DS-III (no.3) set",
         "Unit": "bot"
     },
     {
-        "Id": 139,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "DS-C Standard C Reagent for GE 300, 400ml",
         "Unit": "bot"
     },
     {
-        "Id": 140,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Cleaning Solution for Elec analyzer (GE 300)",
         "Unit": "bot"
     },
     {
-        "Id": 141,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Electrolyte Analyzer pump tubing (GE300)",
         "Unit": "pack"
     },
     {
-        "Id": 142,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Thermal Paper, 110 x 30 mm, 10 rolls/bx",
         "Unit": "roll"
     },
     {
-        "Id": 143,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Blood Gas Calibrator",
         "Unit": "bx"
     },
     {
-        "Id": 144,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Thermal Paper for ABG machine, 100mm",
         "Unit": "bx"
     },
     {
-        "Id": 145,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Heparinized syringe",
         "Unit": "pc"
     },
     {
-        "Id": 146,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Distilled Water, 7L, Wilkins",
         "Unit": "pc"
     },
     {
-        "Id": 147,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Activated Prothrombin Time Reagent Kit",
         "Unit": "bx"
     },
     {
-        "Id": 148,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Prothrombin Time Reagent Kit",
         "Unit": "bx"
     },
     {
-        "Id": 149,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "ABG Reagent Pack, Wondfo",
         "Unit": "pack"
     },
     {
-        "Id": 150,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "ABG Cards, 25's/bx, Wondfo",
         "Unit": "bx"
     },
     {
-        "Id": 151,
+        "Category": "LABORATORY SUPPLIES",
         "Name": "Acid Fast Bacilli Stain Set",
         "Unit": "set"
     },
     {
-        "Id": 152,
+        "Category": "DRUG TESTING LABORATORY",
         "Name": "Waterless Urinal",
         "Unit": "pc"
     },
     {
-        "Id": 153,
+        "Category": "DRUG TESTING LABORATORY",
         "Name": "Specimen container, Plastic, Screw cap, 60ml",
         "Unit": "pc"
     },
     {
-        "Id": 154,
+        "Category": "CYTOLOGY",
         "Name": "Papaniculao Stain Set",
         "Unit": "set"
     },
     {
-        "Id": 155,
+        "Category": "CYTOLOGY",
         "Name": "Coplin Staining Glass",
         "Unit": "pc"
     },
     {
-        "Id": 156,
+        "Category": "CYTOLOGY",
         "Name": "Laboratory staining rack, 30 placer",
         "Unit": "pc"
     },
     {
-        "Id": 157,
+        "Category": "CYTOLOGY",
         "Name": "Forceps, stainless",
         "Unit": "pc"
     },
     {
-        "Id": 158,
+        "Category": "CYTOLOGY",
         "Name": "Glass slides, 1 x 3, frosted edge, 100's/bx",
         "Unit": "bx"
     },
     {
-        "Id": 159,
+        "Category": "CYTOLOGY",
         "Name": "Microscope glass slide storage box, 100's",
         "Unit": "pc"
     },
     {
-        "Id": 160,
+        "Category": "CYTOLOGY",
         "Name": "Wash bottle, plastic, 500ml",
         "Unit": "pc"
     },
     {
-        "Id": 161,
+        "Category": "CYTOLOGY",
         "Name": "Gauze, 36 in x 100 yards",
         "Unit": "roll"
     },
     {
-        "Id": 162,
+        "Category": "COAGULATION STUDIES",
         "Name": "Activated Partial Thromboplastin time",
         "Unit": "bx"
     },
     {
-        "Id": 163,
+        "Category": "COAGULATION STUDIES",
         "Name": "Prothrombin reagent kit, 25's/bx",
         "Unit": "bx"
     },
     {
-        "Id": 164,
+        "Category": "COAGULATION STUDIES",
         "Name": "Oral glucose tolerance test bev, 75 gms Dex, 250 ml",
         "Unit": "bot"
     },
     {
-        "Id": 165,
+        "Category": "COAGULATION STUDIES",
         "Name": "Laboratory Stool, Adjustable",
         "Unit": "pc"
     },
     {
-        "Id": 166,
+        "Category": "COAGULATION STUDIES",
         "Name": "Coagulation Control, Level 1, Level 2, 2 vials/bx",
         "Unit": "pc"
     }
 ]
-
 module.exports = particulars

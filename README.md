@@ -6,7 +6,7 @@
 |--------------|-------------|------------|----------| 
 | Vite         | Node.js     | Express.js | MySQL    |
 | React        | Sequelize   |            |          |
-| React-Router | SheetJS     |            |          | 
+| React-Router | ExcelJS     |            |          | 
 | TailwindCSS  | Passport.js |            |          |
 | Font Awesome |             |            |          |  
 | Axios        |             |            |          | 

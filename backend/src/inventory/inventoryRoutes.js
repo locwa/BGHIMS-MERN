@@ -1,7 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const {ProcurementLog, Particular, Transaction, RequestLog, ItemRequestFulfillment, sequelize} = require('../../models')
+const { hematology, clinicalChemistry, serology, bloodBanking, clinicalMicroscopy, laboratorySupplies, drugTestingLaboratory, cytology, coagulationStudies } = require('../../particulars')
 const { Op, QueryTypes} = require('sequelize');
+const ExcelJS = require('exceljs');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/', async (req, res) => {
     try {
@@ -189,7 +193,7 @@ router.post('/updateItem/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to update item' });
     }
 });
-router.post('/requestItem', async (req, res) => {
+router.post('/request', async (req, res) => {
     const t = await sequelize.transaction();
 
     try {
@@ -232,6 +236,285 @@ router.post('/requestItem', async (req, res) => {
         await t.rollback();
         console.error(err);
         res.status(500).json({ error: 'Failed to create request' });
+    }
+});
+
+router.post('/report', async (req, res) => {
+    try {
+        const { year, quarter } = req.body;
+
+        if (!year || !quarter) {
+            return res.status(400).json({ error: 'Year and quarter are required' });
+        }
+
+        // ✅ Quarter month ranges
+        const quarterRanges = {
+            Q1: [1, 3],
+            Q2: [4, 6],
+            Q3: [7, 9],
+            Q4: [10, 12],
+        };
+
+        const [startMonth, endMonth] = quarterRanges[quarter];
+        if (!startMonth) {
+            return res.status(400).json({ error: 'Invalid quarter value' });
+        }
+
+        const startDate = new Date(`${year}-${String(startMonth).padStart(2, '0')}-01`);
+        const endDate = new Date(`${year}-${String(endMonth).padStart(2, '0')}-31`);
+
+        // ✅ Fetch joined data
+        const records = await Transaction.findAll({
+            where: {
+                DateReceived: { [Op.between]: [startDate, endDate] },
+            },
+            include: [
+                {
+                    model: ProcurementLog,
+                    as: 'ProcurementLogs',
+                    include: [{ model: Particular, as: 'Particular' }],
+                },
+            ],
+        });
+
+        // ✅ Flatten data
+        const data = records.flatMap((txn) =>
+            txn.ProcurementLogs.map((log) => ({
+                Particular: log.Particular?.Name || '',
+                Unit: log.Particular?.Unit || '',
+                BatchNumber: log.BatchNumber || '',
+                Quantity: log.Quantity || 0,
+                UnitCost: log.UnitCost || 0,
+                ExpiryDate: log.ExpiryDate
+                    ? new Date(log.ExpiryDate).toISOString().split('T')[0]
+                    : '',
+                Remarks: log.Remarks || '',
+            }))
+        );
+        const particulars = await Particular.findAll()
+
+        if (data.length === 0) {
+            return res.status(404).json({ error: 'No records found for this quarter.' });
+        }
+
+        const getMonthName = (monthNumber) => {
+            const date = new Date(2000, monthNumber - 1, 1);
+            return date.toLocaleString('default', { month: 'long' });
+        }
+
+        // ✅ Create a new Excel workbook
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet(`Inventory_${year}_${quarter}`);
+
+        // ✅ Add title
+        worksheet.mergeCells('A1:N1');
+        const title = worksheet.getCell('A1');
+        title.value = `INVENTORY OF LABORATORY REAGENTS AND SUPPLIES AS OF ${getMonthName(endMonth)} 31, ${year}`;
+        title.alignment = { horizontal: 'center', vertical: 'middle' };
+        title.font = { size: 12, bold: true };
+
+        worksheet.addRow({});
+        worksheet.addRow({});
+
+        worksheet.getColumn(2).alignment = { horizontal: 'center', vertical: 'middle' } // Unit
+        worksheet.getColumn(3).alignment = { horizontal: 'center', vertical: 'middle' }  // BatchNumber
+        worksheet.getColumn(4).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
+        worksheet.getColumn(5).alignment = { horizontal: 'right', vertical: 'middle' } // Unit
+        worksheet.getColumn(6).alignment = { horizontal: 'center', vertical: 'middle' }  // BatchNumber
+        worksheet.getColumn(7).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
+        worksheet.getColumn(8).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
+        worksheet.getColumn(9).alignment = { horizontal: 'center', vertical: 'middle' }  // BatchNumber
+        worksheet.getColumn(10).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
+        worksheet.getColumn(11).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
+
+        const secondHeaders = [
+            '',
+            '',
+            'Qty',
+            'U-Cost',
+            'T-Cost',
+            'Qty',
+            'U-Cost',
+            'T-Cost',
+            'Qty',
+            'U-Cost',
+            'T-Cost',
+            'Qty',
+            'U-Cost',
+            'T-Cost',
+        ];
+
+        const particularTitle = worksheet.getCell('A5')
+        particularTitle.value = "Particular"
+        particularTitle.font = { bold: true };
+
+        const unitTitle = worksheet.getCell('B5')
+        unitTitle.value = "Unit"
+        unitTitle.font = { bold: true };
+
+        worksheet.mergeCells('F5:H5');
+        const acquisitionTitle = worksheet.getCell('F5');
+        acquisitionTitle.value = `Acquisition ${getMonthName(startMonth)}-${getMonthName(endMonth)} ${year}`;
+        acquisitionTitle.alignment = { horizontal: 'center', vertical: 'middle' };
+        acquisitionTitle.font = { size: 12, bold: true };
+
+        worksheet.mergeCells('I5:K5');
+        const consumptionTitle = worksheet.getCell('I5');
+        consumptionTitle.value = `Consumption  ${getMonthName(startMonth)}-${getMonthName(endMonth)} ${year}`;
+        consumptionTitle.alignment = { horizontal: 'center', vertical: 'middle' };
+        consumptionTitle.font = { size: 12, bold: true };
+
+        worksheet.mergeCells('L5:N5');
+        const finalBalanceTitle = worksheet.getCell('L5');
+        finalBalanceTitle.value = `Bal as of ${getMonthName(startMonth)} 31, ${year}`;
+        finalBalanceTitle.alignment = { horizontal: 'center', vertical: 'middle' };
+        finalBalanceTitle.font = { size: 12, bold: true };
+
+        worksheet.addRow(secondHeaders);
+        const secondHeaderRow = worksheet.getRow(6);
+        secondHeaderRow.font = { bold: true };
+        secondHeaderRow.alignment = { horizontal: 'center', vertical: 'middle' };
+        secondHeaderRow.font = { size: 12, bold: true };
+
+        const particularHeader = worksheet.getCell('A5');
+        particularHeader.alignment = { horizontal: 'left', vertical: 'middle' }
+
+        // ✅ Add data rows
+        // data.forEach((row) => {
+        //     worksheet.addRow([
+        //         row.Particular,
+        //         row.Unit,
+        //         row.BatchNumber,
+        //         row.Quantity,
+        //         row.UnitCost,
+        //         row.ExpiryDate,
+        //         row.Remarks,
+        //     ]);
+        // });
+
+        particulars.forEach((row) => {
+            worksheet.addRow([
+                row.Name,
+                row.Unit
+            ]);
+        });
+
+        // const hematologyHeader = worksheet.addRow(["HEMATOLOGY"])
+        // hematologyHeader.font = { bold: true };
+        // hematology.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const clinicalChemistryHeader = worksheet.addRow(["CLINICAL CHEMISTRY"])
+        // clinicalChemistryHeader.font = { bold: true };
+        // clinicalChemistry.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const serologyHeader = worksheet.addRow(["SEROLOGY"])
+        // serologyHeader.font = { bold: true };
+        // serology.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const bloodBankingHeader = worksheet.addRow(["SEROLOGY"])
+        // bloodBankingHeader.font = { bold: true };
+        // bloodBanking.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const clinicalMicroscopyHeader = worksheet.addRow(["SEROLOGY"])
+        // clinicalMicroscopyHeader.font = { bold: true };
+        // clinicalMicroscopy.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const laboratorySuppliesHeader = worksheet.addRow(["SEROLOGY"])
+        // laboratorySuppliesHeader.font = { bold: true };
+        // laboratorySupplies.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const drugTestingLaboratoryHeader = worksheet.addRow(["SEROLOGY"])
+        // drugTestingLaboratoryHeader.font = { bold: true };
+        // drugTestingLaboratory.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const cytologyHeader = worksheet.addRow(["SEROLOGY"])
+        // drugTestingLaboratoryHeader.font = { bold: true };
+        // drugTestingLaboratory.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+        //
+        // const coagulationStudiesHeader = worksheet.addRow(["SEROLOGY"])
+        // drugTestingLaboratoryHeader.font = { bold: true };
+        // drugTestingLaboratory.forEach((row) => {
+        //     worksheet.addRow([
+        //         row
+        //     ])
+        // })
+
+        worksheet.getColumn(1).width = 50;   // Particular
+        worksheet.getColumn(2).width = 5;  // Unit
+        worksheet.getColumn(3).width = 5;  // Qty
+        worksheet.getColumn(4).width = 17;  // UnitCost
+        worksheet.getColumn(5).width = 17;  // TotalCost
+        worksheet.getColumn(6).width = 5;  // Qty
+        worksheet.getColumn(7).width = 17;  // UnitCost
+        worksheet.getColumn(8).width = 17;  // TotalCost
+        worksheet.getColumn(9).width = 5;  // Qty
+        worksheet.getColumn(10).width = 17;  // UnitCost
+        worksheet.getColumn(11).width = 17;  // TotalCost
+        worksheet.getColumn(12).width = 5;  // Qty
+        worksheet.getColumn(13).width = 17;  // UnitCost
+        worksheet.getColumn(14).width = 17;  // TotalCost
+
+        // ✅ Auto-fit column widths
+        // worksheet.columns.forEach((column) => {
+        //     let maxLength = 0;
+        //     column.eachCell({ includeEmpty: true }, (cell) => {
+        //         const columnLength = cell.value ? cell.value.toString().length : 10;
+        //         if (columnLength > maxLength) maxLength = columnLength;
+        //     });
+        //     column.width = maxLength;
+        // });
+
+        // ✅ File path and save temporarily
+        const filePath = path.join(__dirname, `../../reports/inventory_${year}_${quarter}.xlsx`);
+        await workbook.xlsx.writeFile(filePath);
+
+        // ✅ Send the file for download
+        res.download(filePath, `inventory_${year}_${quarter}.xlsx`, (err) => {
+            if (err) {
+                console.error('File download error:', err);
+                res.status(500).send('Failed to download report.');
+            }
+
+            // Delete temporary file
+            setTimeout(() => {
+                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+            }, 5000);
+        });
+    } catch (err) {
+        console.error('Error generating Excel report:', err);
+        res.status(500).json({ error: 'Failed to generate Excel report.' });
     }
 });
 

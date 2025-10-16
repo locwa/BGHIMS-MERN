@@ -14,6 +14,9 @@ module.exports = {
       },
       Unit: {
         type: Sequelize.STRING
+      },
+      Category: {
+        type: Sequelize.STRING
       }
     });
   },

@@ -25,7 +25,7 @@ export default function MenuBar() {
                 <li className="py-3"><NavLink to="/inventory"
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "boxes"]} className="pr-3"/> Inventory</NavLink></li>
-                {user.Role === "Admin && (
+                {user.Role === "Admin" && (
                   <li className="py-3"><NavLink to="/add-or-remove"
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "exchange-alt"]} className="pr-3"/>Add/Edit Particulars</NavLink></li>  
@@ -35,7 +35,7 @@ export default function MenuBar() {
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "hand-holding-medical"]} className="pr-3"/> Item Request</NavLink></li>
                 )}
-                {user.Role === "Admin && (
+                {user.Role === "Admin" && (
                     <li className="py-3"><NavLink to="/generate-report"
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "file-alt"]} className="pr-3"/> Report</NavLink></li>

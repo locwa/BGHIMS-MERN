@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const {ProcurementLog, Particular, Transaction, RequestLog, ItemRequestFulfillment, sequelize} = require('../../models')
-const { hematology, clinicalChemistry, serology, bloodBanking, clinicalMicroscopy, laboratorySupplies, drugTestingLaboratory, cytology, coagulationStudies } = require('../../particulars')
 const { Op, QueryTypes} = require('sequelize');
 const ExcelJS = require('exceljs');
 const path = require('path');
@@ -42,6 +41,28 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch inventory' });
     }
 });
+router.get('/lowItems', async (req, res) => {
+    try {
+        const items = await sequelize.query(
+            `
+                SELECT p.Name, SUM(pr.Quantity - ir.Quantity) AS Qty
+                FROM ProcurementLog AS pr
+                         RIGHT JOIN Particulars AS p
+                                    ON p.Id = pr.ParticularDescription
+                         LEFT JOIN ItemRequestFulfillment as ir
+                                   ON pr.Id = ir.ProcurementId
+                GROUP BY p.Name
+                HAVING Qty IS NULL OR Qty <= 5
+      `,
+            { type: QueryTypes.SELECT }
+        );
+
+        res.json(items); // return array like [2025, 2024, 2023]
+    } catch (err) {
+        console.error("Failed to fetch items:", err);
+        res.status(500).json({ error: 'Failed to fetch items' });
+    }
+})
 router.get('/years', async (req, res) => {
     try {
         const years = await sequelize.query(
@@ -193,7 +214,7 @@ router.post('/updateItem/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to update item' });
     }
 });
-router.post('/request', async (req, res) => {
+router.post('/requestItem', async (req, res) => {
     const t = await sequelize.transaction();
 
     try {
@@ -238,7 +259,6 @@ router.post('/request', async (req, res) => {
         res.status(500).json({ error: 'Failed to create request' });
     }
 });
-
 router.post('/report', async (req, res) => {
     try {
         const { year, quarter } = req.body;
@@ -310,8 +330,6 @@ router.post('/report', async (req, res) => {
         worksheet.mergeCells('A1:N1');
         const title = worksheet.getCell('A1');
         title.value = `INVENTORY OF LABORATORY REAGENTS AND SUPPLIES AS OF ${getMonthName(endMonth)} 31, ${year}`;
-        title.alignment = { horizontal: 'center', vertical: 'middle' };
-        title.font = { size: 12, bold: true };
 
         worksheet.addRow({});
         worksheet.addRow({});
@@ -326,6 +344,9 @@ router.post('/report', async (req, res) => {
         worksheet.getColumn(9).alignment = { horizontal: 'center', vertical: 'middle' }  // BatchNumber
         worksheet.getColumn(10).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
         worksheet.getColumn(11).alignment = { horizontal: 'right', vertical: 'middle' } // Quantity
+
+        title.alignment = { horizontal: 'center', vertical: 'middle' };
+        title.font = { size: 12, bold: true };
 
         const secondHeaders = [
             '',
@@ -471,7 +492,7 @@ router.post('/report', async (req, res) => {
         //     ])
         // })
 
-        worksheet.getColumn(1).width = 50;   // Particular
+        worksheet.getColumn(1).width = 70;   // Particular
         worksheet.getColumn(2).width = 5;  // Unit
         worksheet.getColumn(3).width = 5;  // Qty
         worksheet.getColumn(4).width = 17;  // UnitCost
@@ -517,5 +538,4 @@ router.post('/report', async (req, res) => {
         res.status(500).json({ error: 'Failed to generate Excel report.' });
     }
 });
-
 module.exports = router

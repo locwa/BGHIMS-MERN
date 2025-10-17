@@ -63,9 +63,9 @@ export default function Inventory() {
                 </tr>
                 {inventory.map((item) => (
                     <tr>
-                    <td className="pr-2 border border-collapse ">{item.Particular.Name}</td>
+                    <td className="pr-2 border border-collapse ">{item.ParticularName}</td>
                         <td className="pr-2 border border-collapse text-center">{item.BatchNumber}</td>
-                        <td className="pr-2 border border-collapse text-center">{item.Quantity}</td>
+                        <td className="pr-2 border border-collapse text-center">{item.RemainingQuantity}</td>
                         <td className="pr-2 border border-collapse text-center">{item.ExpiryDate
                                 ? new Date(item.ExpiryDate).toLocaleDateString("en-CA") // en-CA gives yyyy-mm-dd
                                 : ""}</td>

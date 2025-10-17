@@ -61,6 +61,7 @@ export default function ItemRequest() {
             console.log(res.data);
             setIsModalOpen(false);
             setRequestedQuantity("");
+            window.location.reload()
         } catch (err) {
             console.error("❌ Failed to create request:", err.response?.data || err.message);
             alert("Failed to send request.");
@@ -69,6 +70,7 @@ export default function ItemRequest() {
 
     const openRequestOverview = (item) => {
         setRequestedItem(item);
+        console.log(item)
         setIsModalOpen(true);
     };
 
@@ -113,9 +115,9 @@ export default function ItemRequest() {
                 <tbody>
                 {inventory.map((item) => (
                     <tr key={item.Id}>
-                        <td className="border px-2">{item.Particular.Name}</td>
+                        <td className="border px-2">{item.ParticularName}</td>
                         <td className="border px-2 text-center">{item.BatchNumber}</td>
-                        <td className="border px-2 text-center">{item.Quantity}</td>
+                        <td className="border px-2 text-center">{item.RemainingQuantity}</td>
                         <td className="border px-2 text-center">
                             <button
                                 className="bg-blue-500 border rounded-md p-1 hover:cursor-pointer h-10 w-48 text-white"
@@ -155,7 +157,7 @@ export default function ItemRequest() {
                                 <input
                                     type="text"
                                     className="bg-gray-100 p-2 border"
-                                    value={requestedItem.Particular.Name}
+                                    value={requestedItem.ParticularName}
                                     disabled
                                 />
                             </div>
@@ -175,7 +177,7 @@ export default function ItemRequest() {
                                 <input
                                     type="text"
                                     className="bg-gray-100 p-2 border"
-                                    value={requestedItem.Particular.Unit}
+                                    value={requestedItem.Unit}
                                     disabled
                                 />
                             </div>
@@ -195,7 +197,7 @@ export default function ItemRequest() {
                                 <input
                                     type="text"
                                     className="bg-gray-100 p-2 border"
-                                    value={requestedItem.Quantity}
+                                    value={requestedItem.RemainingQuantity}
                                     disabled
                                 />
                             </div>

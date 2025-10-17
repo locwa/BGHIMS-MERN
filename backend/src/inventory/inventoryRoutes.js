@@ -8,34 +8,38 @@ const fs = require('fs');
 
 router.get('/', async (req, res) => {
     try {
-        const { particularSearch, batchNumber } = req.query;
-        const whereClause = {};
+        const items = await sequelize.query(
+            `
+                SELECT
+                    pl.id AS Id,
+                    p.Name AS ParticularName,
+                    p.Unit AS Unit,
+                    pl.BatchNumber,
+                    pl.ExpiryDate,
+                    pl.UnitCost,
+                    pl.Remarks,
+                    (pl.Quantity - COALESCE(SUM(irf.Quantity), 0)) AS RemainingQuantity
+                FROM ProcurementLog pl
+                         JOIN Particulars p
+                              ON p.id = pl.ParticularDescription
+                         LEFT JOIN ItemRequestFulfillment irf
+                                   ON irf.ProcurementId = pl.id
+                GROUP BY
+                    pl.id,
+                    p.Name,
+                    p.Unit,
+                    pl.BatchNumber,
+                    pl.ExpiryDate,
+                    pl.UnitCost,
+                    pl.Remarks,
+                    pl.Quantity;
 
-        const particularWhere = particularSearch
-            ? { Name: { [Op.like]: `%${particularSearch}%` } }
-            : undefined;
+            `,
+            { type: QueryTypes.SELECT }
+        );
 
-        const batchNumberWhere = batchNumber
-            ? { BatchNumber: { [Op.like]: `%${batchNumber}%`} }
-            : undefined;
+        res.json(items);
 
-
-        const data = await ProcurementLog.findAll({
-            where: batchNumberWhere,
-            include: [
-                {
-                    model: Particular,
-                    as: 'Particular',
-                    where: particularWhere, // 🔍 filters by item name
-                },
-                {
-                    model: Transaction,
-                    as: 'Transaction',
-                },
-            ],
-        });
-
-        res.json(data);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch inventory' });

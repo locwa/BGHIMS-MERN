@@ -44,7 +44,7 @@ export default function AddOrEditParticulars() {
 
     const openAddExistingItem = (item) => {
         setModalTitle('Add Item')
-        setParticularName(item.Particular.Name)
+        setParticularName(item.ParticularName)
         setBatchNumber('')
         setUnit('')
         setUnitCost('')
@@ -68,11 +68,11 @@ export default function AddOrEditParticulars() {
     const editItem = (item) => {
         setModalTitle('Edit Item')
         setProcurementId(item.Id)
-        setParticularName(item.Particular.Name)
+        setParticularName(item.ParticularName)
         setBatchNumber(item.BatchNumber)
-        setUnit(item.Particular.Unit)
+        setUnit(item.Unit)
         setUnitCost(item.UnitCost)
-        setQuantity(item.Quantity)
+        setQuantity(item.RemainingQuantity)
         setExpiryDate(new Date(item.ExpiryDate).toISOString().split("T")[0])
         setRemarks((item.Remarks))
         setIsModalOpen(true)
@@ -158,7 +158,7 @@ export default function AddOrEditParticulars() {
                 </tr>
                 {inventory.map((item) => (
                     <tr>
-                    <td className="pr-2 border border-collapse">{item.Particular.Name}</td>
+                    <td className="pr-2 border border-collapse">{item.ParticularName}</td>
                         <td className="pr-2 border border-collapse text-center">{item.BatchNumber}</td>
                         <td className="p-2 border border-collapse text-center flex justify-between w-20">
                             <button
@@ -208,11 +208,6 @@ export default function AddOrEditParticulars() {
                                 <label htmlFor="Name">Unit Cost</label>
                                 <input type="text" className="bg-gray-100 p-2 border w-88" value={unitCost}
                                        placeholder="e.g., 18000" onChange={(e) => setUnitCost(e.target.value)}/>
-                            </div>
-                            <div className="flex flex-col">
-                                <label htmlFor="Name">Quantity</label>
-                                <input type="text" className="bg-gray-100 p-2 border w-88" value={Quantity}
-                                       placeholder="e.g., 12" onChange={(e) => setQuantity(e.target.value)}/>
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="Name">Expiry Date</label>

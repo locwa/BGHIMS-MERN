@@ -28,9 +28,11 @@ export default function MenuBar() {
                 <li className="py-3"><NavLink to="/add-or-remove"
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "exchange-alt"]} className="pr-3"/>Add/Edit Particulars</NavLink></li>
-                <li className="py-3"><NavLink to="/item-request"
+                {user.Role === "Staff" && (
+                    <li className="py-3"><NavLink to="/item-request"
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "hand-holding-medical"]} className="pr-3"/> Item Request</NavLink></li>
+                )}
                 <li className="py-3"><NavLink to="/generate-report"
                                               className="w-[100%] text-left flex items-center"><FontAwesomeIcon
                     icon={["fas", "file-alt"]} className="pr-3"/> Report</NavLink></li>

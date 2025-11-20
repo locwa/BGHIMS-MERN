@@ -3,11 +3,11 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Add Category column to Particulars table
-    await queryInterface.addColumn('Particulars', 'Category', {
-      type: Sequelize.STRING(255),
-      allowNull: true,
-      after: 'Unit'
-    });
+    // await queryInterface.addColumn('Particulars', 'Category', {
+    //   type: Sequelize.STRING(255),
+    //   allowNull: true,
+    //   after: 'Unit'
+    // });
 
     // Add Year column to ProcurementLog table
     await queryInterface.addColumn('ProcurementLog', 'Year', {

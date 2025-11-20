@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'UserAccounts',
-    tableName: 'useraccounts', // ✅ Changed to lowercase to match database
+    tableName: 'UserAccounts', // ✅ Changed to lowercase to match database
     timestamps: false
   });
   return UserAccounts;

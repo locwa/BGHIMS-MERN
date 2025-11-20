@@ -343,6 +343,15 @@ router.post('/report', async (req, res) => {
             return res.status(400).json({ error: 'Year and quarter are required' });
         }
 
+        function getPreviousQuarter(year, quarter) {
+            const qNum = Number(quarter.replace("Q", ""));
+            if (qNum === 1) return { prevYear: year - 1, prevQuarter: "Q4" };
+            return { prevYear: year, prevQuarter: `Q${qNum - 1}` };
+        }
+
+        const { prevYear, prevQuarter } = getPreviousQuarter(year, quarter);
+        console.log("Previous quarter:", prevQuarter, prevYear);
+
         // ✅ Quarter month ranges
         const quarterRanges = {
             Q1: [1, 3],
@@ -362,8 +371,64 @@ router.post('/report', async (req, res) => {
         const startDate = new Date(`${year}-${String(startMonth).padStart(2, '0')}-01`);
         const endDate = new Date(`${year}-${String(endMonth).padStart(2, '0')}-31`);
 
+        const [prevStartMonth, prevEndMonth] = quarterRanges[prevQuarter];
+
+        const prevStartDate = new Date(`${prevYear}-${String(prevStartMonth).padStart(2, '0')}-01`);
+        const prevEndDate = new Date(`${prevYear}-${String(prevEndMonth).padStart(2, '0')}-31`);
+
+
         let additions = [];
         let requests = [];
+
+        let prevAdditions = [];
+        let prevRequests = [];
+
+        // ✅ Fetch previous ADDITIONS (items added to inventory)
+        try {
+            prevAdditions = await sequelize.query(
+                `
+                    SELECT
+                        p.Name AS ParticularName,
+                        pl.Quantity,
+                        pl.UnitCost
+                    FROM Transactions t
+                             INNER JOIN ProcurementLog pl ON pl.TransactionId = t.id
+                             INNER JOIN Particulars p ON p.id = pl.ParticularDescription
+                    WHERE t.DateReceived BETWEEN :startDate AND :endDate
+                `,
+                {
+                    replacements: { startDate: prevStartDate, endDate: prevEndDate },
+                    type: QueryTypes.SELECT
+                }
+            );
+            console.log(`Found ${prevAdditions.length} previous additions`);
+        } catch (prevAddError) {
+            console.error('Error fetching previous additions:', prevAddError.message);
+        }
+
+        // ✅ Fetch previous REQUESTS (items added to inventory)
+        try {
+            prevRequests = await sequelize.query(
+                `
+                    SELECT
+                        p.Name AS ParticularName,
+                        irf.Quantity,
+                        pl.UnitCost
+                    FROM RequestLog rl
+                             INNER JOIN ItemRequestFulfillment irf ON irf.RequestId = rl.id
+                             INNER JOIN ProcurementLog pl ON pl.id = irf.ProcurementId
+                             INNER JOIN Particulars p ON p.id = pl.ParticularDescription
+                    WHERE rl.DateAdded BETWEEN :startDate AND :endDate
+                `,
+                {
+                    replacements: { startDate: prevStartDate, endDate: prevEndDate },
+                    type: QueryTypes.SELECT
+                }
+            );
+            console.log(`Found ${prevAdditions.length} previous requests`);
+        } catch (prevAddError) {
+            console.error('Error fetching previous requests:', prevAddError.message);
+        }
 
         // ✅ Fetch ADDITIONS (items added to inventory)
         try {
@@ -389,7 +454,7 @@ router.post('/report', async (req, res) => {
                 FROM Transactions t
                 INNER JOIN ProcurementLog pl ON pl.TransactionId = t.id
                 INNER JOIN Particulars p ON p.id = pl.ParticularDescription
-                LEFT JOIN Accounts u ON u.id = t.ReceivingUser
+                LEFT JOIN UserAccounts u ON u.id = t.ReceivingUser
                 WHERE t.DateReceived BETWEEN :startDate AND :endDate
                 `,
                 {
@@ -618,6 +683,7 @@ router.post('/report', async (req, res) => {
                     name: item.ParticularName,
                     unit: item.Unit,
                     category: item.Category,
+                    unitCost: item.UnitCost,
                     acquisitionQty: 0,
                     acquisitionCost: 0
                 };
@@ -642,6 +708,44 @@ router.post('/report', async (req, res) => {
             consumptionData[key].cost += (item.Quantity || 0) * (item.UnitCost || 0);
         });
         console.log('Consumption data grouped:', Object.keys(consumptionData).length, 'unique items');
+
+        const prevInventory = {};
+        prevAdditions.forEach(item => {
+            const key = item.ParticularName;
+            if (!prevInventory[key]) {
+                prevInventory[key] = { qty: 0, cost: 0 };
+            }
+            prevInventory[key].qty += item.Quantity || 0;
+            prevInventory[key].cost += (item.Quantity || 0) * (item.UnitCost || 0);
+        });
+
+        const prevConsumption = {};
+        prevRequests.forEach(item => {
+            const key = item.ParticularName;
+            if (!prevConsumption[key]) {
+                prevConsumption[key] = { qty: 0, cost: 0 };
+            }
+            prevConsumption[key].qty += item.Quantity || 0;
+            prevConsumption[key].cost += (item.Quantity || 0) * (item.UnitCost || 0);
+        });
+
+        const previousEnding = {};  // final result you will use
+
+        Object.keys(prevInventory).forEach(name => {
+            const acquisition = prevInventory[name] || { qty: 0, cost: 0 };
+            const cons = prevConsumption[name] || { qty: 0, cost: 0 };
+
+            const endingQty = acquisition.qty - cons.qty;
+            const endingCost = acquisition.cost - cons.cost;
+            const endingUnitCost = endingQty > 0 ? endingCost / endingQty : 0;
+
+            previousEnding[name] = {
+                qty: endingQty,
+                unitCost: endingUnitCost,
+                totalCost: endingCost
+            };
+        });
+
 
         // Get all unique items from particulars table
         const allItems = particulars.map(p => ({
@@ -692,10 +796,12 @@ router.post('/report', async (req, res) => {
                 const cons = consumptionData[item.name] || { qty: 0, cost: 0 };
                 
                 // Beginning balance (for now, set to 0 - can be enhanced later to pull from previous quarter)
-                const beginningQty = 0;
-                const beginningUnitCost = 0;
-                const beginningTotalCost = 0;
-                
+                const prev = previousEnding[item.name] || { qty: 0, unitCost: 0, totalCost: 0 };
+
+                const beginningQty = prev.qty;
+                const beginningUnitCost = prev.unitCost;
+                const beginningTotalCost = prev.totalCost;
+
                 // Acquisition data
                 const acquisitionQty = inv.acquisitionQty;
                 const acquisitionUnitCost = acquisitionQty > 0 ? inv.acquisitionCost / acquisitionQty : 0;
@@ -714,18 +820,18 @@ router.post('/report', async (req, res) => {
                 const dataRow = worksheet.addRow([
                     item.name,
                     item.unit,
-                    beginningQty || '', 
-                    beginningUnitCost > 0 ? beginningUnitCost.toFixed(2) : '',
-                    beginningTotalCost > 0 ? beginningTotalCost.toFixed(2) : '',
-                    acquisitionQty || '',
-                    acquisitionUnitCost > 0 ? acquisitionUnitCost.toFixed(2) : '',
-                    acquisitionTotalCost > 0 ? acquisitionTotalCost.toFixed(2) : '',
-                    consumptionQty || '',
-                    consumptionUnitCost > 0 ? consumptionUnitCost.toFixed(2) : '',
-                    consumptionTotalCost > 0 ? consumptionTotalCost.toFixed(2) : '',
-                    endingQty > 0 ? endingQty : '',
-                    endingUnitCost > 0 ? endingUnitCost.toFixed(2) : '',
-                    endingTotalCost > 0 ? endingTotalCost.toFixed(2) : ''
+                    beginningQty || 0,
+                    beginningUnitCost > 0 ? beginningUnitCost.toFixed(2) : 0,
+                    beginningTotalCost > 0 ? beginningTotalCost.toFixed(2) : 0,
+                    acquisitionQty || 0,
+                    acquisitionUnitCost > 0 ? acquisitionUnitCost.toFixed(2) : 0,
+                    acquisitionTotalCost > 0 ? acquisitionTotalCost.toFixed(2) : 0,
+                    consumptionQty || 0,
+                    consumptionUnitCost > 0 ? consumptionUnitCost.toFixed(2) : 0,
+                    consumptionTotalCost > 0 ? consumptionTotalCost.toFixed(2) : 0,
+                    endingQty > 0 ? endingQty : 0,
+                    endingUnitCost > 0 ? endingUnitCost.toFixed(2) : 0,
+                    endingTotalCost > 0 ? endingTotalCost.toFixed(2) : 0
                 ]);
 
                 // Format number cells to be right-aligned (columns C to N)

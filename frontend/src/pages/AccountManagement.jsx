@@ -147,10 +147,13 @@ export default function AccountManagement() {
                 return;
             }
 
+            // Refresh the table without reloading the whole app
+            const updated = await getAccounts();
+            setAccounts(updated);
+
         } catch (e) {
             console.log("Fetch error:", e);
         }
-        window.location.reload()
     };
 
     const addAccount = async() => {

@@ -7,6 +7,7 @@ const session = require("express-session");
 const authenticationRoutes = require('./src/authentication/authenticationRoutes')
 const inventoryRoutes = require('./src/inventory/inventoryRoutes')
 const transactionRoutes = require('./src/transaction/Transactionroutes')
+const accountRoutes = require('./src/accounts/accountsRoutes')
 
 // ✅ Body parser middleware (place these early, before routes)
 app.use(express.json())
@@ -29,6 +30,7 @@ app.use(passport.session());
 app.use('/auth', authenticationRoutes)
 app.use('/inventory', inventoryRoutes)
 app.use('/transactions', transactionRoutes)
+app.use('/accounts', accountRoutes)
 
 app.listen(3000, () => {
     console.log('Server started at http://localhost:3000')

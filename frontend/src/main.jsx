@@ -11,6 +11,7 @@ import Inventory from "./pages/Inventory.jsx"
 import AddOrEditPartculars from "./pages/AddOrEditParticulars.jsx"
 import GenerateReport from "./pages/GenerateReport.jsx"
 import ItemRequest from "./pages/ItemRequest.jsx";
+import AccountManagement from "./pages/AccountManagement.jsx";
 
 // import ProtectedRoute from "./ProtectedRoute.jsx";
 
@@ -49,6 +50,11 @@ createRoot(document.getElementById('root')).render(
                   <Route path="/item-request" element={
                       <ProtectedRoute>
                           <ItemRequest />
+                      </ProtectedRoute>
+                  }/>
+                  <Route path="/account-management" element={
+                      <ProtectedRoute>
+                          <AccountManagement />
                       </ProtectedRoute>
                   }/>
               </Routes>

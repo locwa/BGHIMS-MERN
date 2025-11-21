@@ -1,4 +1,5 @@
 'use strict';
+const {BOOLEAN} = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -23,7 +24,10 @@ module.exports = {
       },
       JobTitle: {
         type: Sequelize.STRING
-      }
+      },
+        isActive: {
+            type: Sequelize.BOOLEAN
+      },
     });
   },
   async down(queryInterface, Sequelize) {

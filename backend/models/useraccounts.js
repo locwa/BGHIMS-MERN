@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     Email: DataTypes.STRING,
     Password: DataTypes.STRING,
     Role: DataTypes.STRING,
-    JobTitle: DataTypes.STRING
+    JobTitle: DataTypes.STRING,
+      IsActive: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'UserAccounts',

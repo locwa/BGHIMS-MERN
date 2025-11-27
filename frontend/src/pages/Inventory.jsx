@@ -15,6 +15,9 @@ export default function Inventory() {
     const [selectedYear, setSelectedYear] = useState("all");
     const [selectedQuarter, setSelectedQuarter] = useState("all");
     const [availableYears, setAvailableYears] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const itemsPerPage = 5; // you can change this
 
     const categoryOptions = [
         "hematology",
@@ -202,6 +205,13 @@ export default function Inventory() {
         return matchesParticular && matchesBatch && matchesStockStatus && 
                matchesCategory && matchesYear && matchesQuarter;
     });
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const paginatedItems = filteredInventory.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(filteredInventory.length / itemsPerPage);
 
     // Get category statistics (respecting year and quarter filters)
     const getCategoryStats = (categoryName) => {
@@ -695,7 +705,7 @@ export default function Inventory() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
-                                        {filteredInventory.map((item, index) => {
+                                        {paginatedItems.map((item, index) => {
                                             const statusInfo = getStatusInfo(item.RemainingQuantity, item.ExpiryDate);
                                             const daysUntilExpiry = item.ExpiryDate 
                                                 ? Math.ceil((new Date(item.ExpiryDate) - new Date()) / (1000 * 60 * 60 * 24))
@@ -758,6 +768,33 @@ export default function Inventory() {
                                         })}
                                     </tbody>
                                 </table>
+                                    <div className="flex justify-between items-center p-4 bg-gray-50 border-t">
+                                        <button
+                                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                            disabled={currentPage === 1}
+                                            className={`px-4 py-2 rounded-lg font-medium ${
+                                                currentPage === 1
+                                                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                                    : "bg-blue-600 text-white hover:bg-blue-700"
+                                            }`}
+                                        >
+                                            Previous
+                                        </button>
+
+                                        <span className="text-gray-600 font-medium">Page {currentPage} of {totalPages}</span>
+
+                                        <button
+                                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                            disabled={currentPage === totalPages}
+                                            className={`px-4 py-2 rounded-lg font-medium ${
+                                                currentPage === totalPages
+                                                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                                    : "bg-blue-600 text-white hover:bg-blue-700"
+                                            }`}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
                             </div>
                         </div>
                     )}

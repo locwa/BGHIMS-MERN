@@ -59,6 +59,9 @@ export default function AddOrEditParticulars() {
   const [quarter, setQuarter] = useState("");
   const [category, setCategory] = useState("");
   const [customCategory, setCustomCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 5; // change as needed
 
   const unitOptions = ["bx", "bot", "kits", "vial", "pack", "tray", "tubes", "pc", "set", "roll", "other"];
   const categoryOptions = [
@@ -410,6 +413,17 @@ export default function AddOrEditParticulars() {
 
   const displayItems = viewMode === "grouped" ? uniqueItems : filteredInventory;
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = displayItems.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(displayItems.length / itemsPerPage);
+
+    const goToPage = (page) => {
+        if (page < 1 || page > totalPages) return;
+        setCurrentPage(page);
+    };
+
   if (loading) {
     return (
       <DashboardTemplate>
@@ -626,7 +640,7 @@ export default function AddOrEditParticulars() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {displayItems.map((item, index) => (
+                {currentItems.map((item, index) => (
                   <tr key={viewMode === "grouped" ? `${item.ParticularName}-${index}` : item.Id} className="hover:bg-gray-50 transition">
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">{item.ParticularName}</div>
@@ -680,6 +694,48 @@ export default function AddOrEditParticulars() {
                 ))}
               </tbody>
             </table>
+              {/* Pagination */}
+              {totalPages > 1 && (
+                  <div className="flex justify-between items-center p-4 border-t bg-gray-50">
+
+                      {/* Prev Button */}
+                      <button
+                          onClick={() => goToPage(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className={`px-3 py-1 rounded-lg text-sm font-medium
+                          ${currentPage === 1 ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-white border hover:bg-gray-100"}`}
+                      >
+                          Prev
+                      </button>
+
+                      {/* Page Numbers */}
+                      <div className="flex items-center gap-2">
+                          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                              <button
+                                  key={page}
+                                  onClick={() => goToPage(page)}
+                                  className={`px-3 py-1 rounded-lg text-sm font-medium border
+                                  ${currentPage === page
+                                      ? "bg-blue-600 text-white border-blue-600"
+                                      : "bg-white hover:bg-gray-100"}`}
+                              >
+                                  {page}
+                              </button>
+                          ))}
+                      </div>
+
+                      {/* Next Button */}
+                      <button
+                          onClick={() => goToPage(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className={`px-3 py-1 rounded-lg text-sm font-medium
+                          ${currentPage === totalPages ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-white border hover:bg-gray-100"}`}
+                      >
+                          Next
+                      </button>
+
+                  </div>
+              )}
           </div>
         </div>
       )}

@@ -12,6 +12,7 @@ import AddOrEditPartculars from "./pages/AddOrEditParticulars.jsx"
 import GenerateReport from "./pages/GenerateReport.jsx"
 import ItemRequest from "./pages/ItemRequest.jsx";
 import AccountManagement from "./pages/AccountManagement.jsx";
+import ChangePassword from "./pages/ChangePassword.tsx";
 
 // import ProtectedRoute from "./ProtectedRoute.jsx";
 
@@ -55,6 +56,11 @@ createRoot(document.getElementById('root')).render(
                   <Route path="/account-management" element={
                       <ProtectedRoute>
                           <AccountManagement />
+                      </ProtectedRoute>
+                  }/>
+                  <Route path="/change-password" element={
+                      <ProtectedRoute>
+                          <ChangePassword />
                       </ProtectedRoute>
                   }/>
               </Routes>

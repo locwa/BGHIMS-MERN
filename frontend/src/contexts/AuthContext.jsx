@@ -30,10 +30,10 @@ export function AuthProvider({ children }) {
                 setUser(res.data.user);
                 setLoginError(null);
             } else {
-                throw new Error("Account has been disabled. Please look for your administrator.")
+                window.alert("Account has been disabled. Please look for your administrator.")
             }
         } catch (err) {
-            const message = err || "Invalid Username or Password";
+            const message = "Invalid Username or Password";
 
             setLoginError(message);
 

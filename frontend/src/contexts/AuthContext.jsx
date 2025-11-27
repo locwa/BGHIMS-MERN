@@ -26,11 +26,18 @@ export function AuthProvider({ children }) {
                 { email, password },
                 { withCredentials: true }
             );
-            setUser(res.data.user);
-            setLoginError(null);
+            if (res.data.user.IsActive){
+                setUser(res.data.user);
+                setLoginError(null);
+            } else {
+                throw new Error("Account has been disabled. Please look for your administrator.")
+            }
         } catch (err) {
-            setLoginError("Invalid Username or Password");
-            window.alert("Invalid Username or Password");
+            const message = err || "Invalid Username or Password";
+
+            setLoginError(message);
+
+            window.alert(message);
         }
     };
 
